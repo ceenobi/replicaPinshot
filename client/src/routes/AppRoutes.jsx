@@ -1,3 +1,4 @@
+import { Home } from "@pages";
 import { Suspense, lazy } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
@@ -12,6 +13,13 @@ export default function AppRoutes() {
           <Root />
         </Suspense>
       ),
+      children: [
+        {
+          path: "/",
+          name: "Home",
+          element: <Home />,
+        },
+      ],
     },
   ]);
   return <RouterProvider router={router} />;

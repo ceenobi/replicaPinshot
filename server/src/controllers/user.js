@@ -49,18 +49,23 @@ export const signUp = async (req, res, next) => {
       if (!setToken) return next(createHttpError(400, "Error creating token"));
       const messageLink = `${env.BASE_URL}/verify-email/${user._id}/${setToken.token}`;
       if (!messageLink) {
-        return next(createHttpError(400, "Verification message not sent"));
+        return next(createHttpError(400, "Verification link not found"));
       }
-      await sendEmail({
+      const sendMail = await sendEmail({
         userName: userName,
         from: env.USER_MAIL_LOGIN,
         to: user.email,
         subject: "Email verification link",
         text: `Hello, ${userName}, please verify your email by clicking on the link: ${messageLink}. Link expires in 30 minutes`,
       });
+      if (!sendMail) {
+        return next(
+          createHttpError(400, "Verification message could not be sent")
+        );
+      }
       res
         .status(201)
-        .json({ access_token, msg: "User registration successfull" });
+        .json({ sendMail, access_token, msg: "User registration successfull" });
     }
   } catch (error) {
     next(error);
@@ -83,15 +88,20 @@ export const sendEmailVerificationLink = async (req, res, next) => {
     if (!setToken) return next(createHttpError(400, "Error creating token"));
     const messageLink = `${env.BASE_URL}/verify-email/${user._id}/${setToken.token}`;
     if (!messageLink)
-      return next(createHttpError(400, "Verification message not sent"));
-    await sendEmail({
+      return next(createHttpError(400, "Verification link not found"));
+    const sendMail = await sendEmail({
       userName: user.userName,
       from: env.USER_MAIL_LOGIN,
       to: user.email,
       subject: "Email verification link",
       text: `Hello, ${user.userName}, please verify your email by clicking on the link: ${messageLink}. Link expires in 30 minutes`,
     });
-    res.status(200).json({ msg: "Verification message sent" });
+    if (!sendMail) {
+      return next(
+        createHttpError(400, "Verification message could not be sent")
+      );
+    }
+    res.status(200).json({ sendMail });
   } catch (error) {
     next(error);
   }

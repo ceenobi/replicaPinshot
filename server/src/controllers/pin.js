@@ -15,6 +15,11 @@ export const createAPin = async (req, res, next) => {
       return next(createHttpError(400, "Invalid userId or parameters missing"));
     }
     const user = await User.findById(userId);
+    if (!user.isVerified) {
+      return next(
+        createHttpError(401, "Email not verified, pls verify to create a pin")
+      );
+    }
     const pinData = {
       userId: user._id,
       title: pinParams.title,

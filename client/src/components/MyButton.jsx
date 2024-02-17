@@ -5,7 +5,6 @@ export default function MyButton({ text, variant, className, ...props }) {
   return (
     <Button variant={variant} className={`${className} fw-bold`} {...props}>
       {text}
-      
     </Button>
   );
 }
