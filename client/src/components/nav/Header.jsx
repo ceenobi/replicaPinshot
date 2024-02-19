@@ -7,7 +7,7 @@ import MyButton from "../MyButton";
 export default function Header() {
   return (
     <div className={`${styles.navContainer} d-none d-md-block fixed-top w-100 p-3`}>
-      <div className="d-flex justify-content-between align-items-center mb-3">
+      <div className="d-flex justify-content-between align-items-center">
         <Stack direction="horizontal" gap={3}>
           <NavLink to="/">
             <Image
@@ -20,7 +20,7 @@ export default function Header() {
           <NavLink
             to="/explore"
             className={({ isActive }) =>
-              isActive ? "activeLink" : "no-activeLink"
+              isActive ? "activeLink fw-bold" : "no-activeLink fw-bold"
             }
           >
             Explore
@@ -46,7 +46,7 @@ export default function Header() {
               text="Log in"
             />
           </NavLink>
-          <NavLink to="/signup" className="d-none d-md-block">
+          <NavLink to="/signup">
             <MyButton
               className="border-0 bg-secondary-subtle text-dark p-2 rounded-pill"
               style={{ minWidth: "fit-content" }}

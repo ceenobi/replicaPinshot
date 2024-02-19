@@ -1,8 +1,7 @@
 .navContainer {
-  max-width: 1440px;
-  margin: 0 auto;
   z-index: 5;
   background-color: var(--white100);
+
 }
 
 .btn {

@@ -20,12 +20,12 @@
   min-height: 100vh;
 }
 .imgAdjust {
-  width: 250px;
+  width: 100%;
+  text-align: center;
 }
 .btn {
   background-color: var(--orangeLight) !important;
 }
-
 
 @media (min-width: 768px) {
   .imgAdjust {

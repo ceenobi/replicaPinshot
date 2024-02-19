@@ -71,7 +71,7 @@ export const getRandomPins = async (req, res, next) => {
       res.status(200).json(cachedPins);
     }
     const count = await Pin.countDocuments();
-    const pins = await Pin.aggregate([{ $sample: { size: 2 } }])
+    const pins = await Pin.aggregate([{ $sample: { size: 60 } }])
       .skip(skipCount)
       .limit(limit);
     if (!pins) {

@@ -16,6 +16,12 @@
   --dark100: #0f1212;
   --teal100: rgb(174, 195, 185);
   --teal200: rgb(70, 94, 83);
+  --grey100: #e2e3e5;
+}
+
+body {
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 a {
@@ -29,4 +35,14 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.activeLink {
+  color: var(--teal200) !important;
+  transition: 0.3s ease-in-out;
+}
+
+.no-activeLink:hover {
+  color: var(--teal200) !important;
+  transition: 0.3s ease-in-out;
 }

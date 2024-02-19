@@ -1,4 +1,4 @@
-import { Container, Row, Col, Image } from "react-bootstrap";
+import { Row, Col, Image } from "react-bootstrap";
 import { MyButton } from "@components";
 import { Link } from "react-router-dom";
 import styles from "./home.module.css";
@@ -11,7 +11,7 @@ export default function Home() {
     "https://unsplash.com/photos/zdLdgGbi9Ow/download?force=true&w=640",
   ];
   return (
-    <Container fluid className="mt-md-5 px-0">
+    <div className="mt-md-5 px-0">
       <div className="d-none d-md-block py-5">
         <h1 className="text-center my-5 display-4 fw-bold">
           See what your friends <br />
@@ -61,7 +61,7 @@ export default function Home() {
         </div>
       </div>
       <div
-        className={`d-md-flex justify-content-md-between align-items-center ${styles.explore}`}
+        className={`d-md-flex justify-content-center justify-content-md-between align-items-center ${styles.explore}`}
       >
         <div>
           <Image
@@ -72,7 +72,7 @@ export default function Home() {
             className={styles.imgAdjust}
           />
         </div>
-        <div className="w-75 text-center">
+        <div className="text-center p-4 w-100">
           <h1
             className="my-4 fw-bold display-5"
             style={{ color: "var(--teal200" }}
@@ -92,6 +92,6 @@ export default function Home() {
           </Link>
         </div>
       </div>
-    </Container>
+    </div>
   );
 }
