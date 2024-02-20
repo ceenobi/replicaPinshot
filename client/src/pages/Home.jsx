@@ -17,7 +17,7 @@ export default function Home() {
           See what your friends <br />
           <span style={{ color: "var(--teal100)" }}>are up to</span>
         </h1>
-        <Row className="g-3 px-3">
+        <Row className="g-3 px-3 justify-content-center">
           {imgs.map((img, i) => (
             <Col key={i} md={4} lg={3}>
               <Image src={img} className="img-fluid rounded-4" />
