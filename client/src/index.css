@@ -23,11 +23,6 @@
   cursor: pointer;
 }
 
-/* .layout {
-  max-width: 1440px !important;
-  margin: 0 auto;
-} */
-
 a {
   color: inherit !important;
 }
@@ -115,7 +110,8 @@ button:focus-visible {
   .cardBox {
     overflow: hidden;
   }
-  .cardBox * {
+  .cardBox *,
+  .pinId-Img {
     transition: 0.3s ease all;
   }
 
@@ -124,6 +120,10 @@ button:focus-visible {
     width: 100%;
     height: 100%;
     filter: brightness(60%) !important;
+    transition: 0.3s ease-in-out;
+  }
+
+  .pinId-Img:hover {
     transition: 0.3s ease-in-out;
   }
 }

@@ -12,40 +12,54 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "@hooks";
 import { PiCameraPlus } from "react-icons/pi";
 import { userService } from "@services";
+import { logo } from "@assets";
 import styles from "./nav.module.css";
 import MyButton from "../MyButton";
 
 export default function Header() {
   const location = useLocation();
-  const { loggedInUser } = useAuthContext();
+  const { loggedInUser } = useAuthContext() || {};
 
   const logoutUser = () => {
     userService.logout();
   };
 
   return (
-    <Container fluid className={`${styles.navContainer} fixed-top w-100 p-3`}>
-      <div className="d-flex justify-content-between align-items-center">
-        <Stack direction="horizontal" gap={3}>
-          <NavLink to="/">
-            <Image
-              src={
-                " https://res.cloudinary.com/ceenobi/image/upload/v1706179614/pintube/Frame_16_ecr4pq.svg"
+    <div
+      className={
+        location.pathname === "/" && !loggedInUser ? "d-none d-md-block" : ""
+      }
+    >
+      <Container fluid className={`${styles.navContainer} fixed-top w-100 p-3`}>
+        <div className="d-flex justify-content-between align-items-center">
+          <Stack direction="horizontal" gap={3}>
+            <NavLink to="/">
+              <Image src={logo} alt="logo" style={{ width: "100px" }} />
+            </NavLink>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "activeLink fw-bold d-none d-md-block"
+                  : "no-activeLink fw-bold d-none d-md-block"
               }
-              alt="logo"
-            />
-          </NavLink>
-          <NavLink
-            to="/explore"
-            className={({ isActive }) =>
-              isActive ? "activeLink fw-bold" : "no-activeLink fw-bold"
-            }
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/explore"
+              className={({ isActive }) =>
+                isActive ? "activeLink fw-bold" : "no-activeLink fw-bold"
+              }
+            >
+              Explore
+            </NavLink>
+          </Stack>
+
+          <Form
+            style={{ minWidth: "50%" }}
+            className="d-none d-md-block mx-auto"
           >
-            Explore
-          </NavLink>
-        </Stack>
-        {location.pathname !== "/" && (
-          <Form style={{ minWidth: "50%" }} className="mx-auto">
             <InputGroup className=" w-100 rounded-pill border-0 bg-secondary-subtle">
               <Form.Control
                 placeholder="Search"
@@ -57,62 +71,63 @@ export default function Header() {
               </Button>
             </InputGroup>
           </Form>
-        )}
-        {loggedInUser ? (
-          <Stack direction="horizontal" gap={3}>
-            <NavLink
-              to="/create-pin"
-              className={({ isActive }) =>
-                isActive ? "activeLink" : "no-activeLink"
-              }
-            >
-              <PiCameraPlus size="30px" />
-            </NavLink>
-            <Dropdown>
-              <Dropdown.Toggle variant="none" id="dropdown-basic">
-                <Image
-                  src={loggedInUser?.profilePhoto}
-                  roundedCircle
-                  className="object-fit-cover"
-                  style={{ width: "35px", height: "35px" }}
-                  alt={loggedInUser?.userName}
+
+          {loggedInUser ? (
+            <Stack direction="horizontal" gap={2}>
+              <NavLink
+                to="/create-pin"
+                className={({ isActive }) =>
+                  isActive ? "activeLink" : "no-activeLink"
+                }
+              >
+                <PiCameraPlus size="30px" />
+              </NavLink>
+              <Dropdown>
+                <Dropdown.Toggle variant="none" id="dropdown-basic">
+                  <Image
+                    src={loggedInUser?.profilePhoto}
+                    roundedCircle
+                    className="object-fit-cover"
+                    style={{ width: "35px", height: "35px" }}
+                    alt={loggedInUser?.userName}
+                  />
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.ItemText className="fw-bold">
+                    Hi, {loggedInUser?.userName}
+                  </Dropdown.ItemText>
+                  <Dropdown.Item
+                    as={NavLink}
+                    to={`/profile/${loggedInUser?.userName}`}
+                  >
+                    Profile
+                  </Dropdown.Item>
+                  <Dropdown.ItemText onClick={logoutUser} className="cursor">
+                    Logout
+                  </Dropdown.ItemText>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Stack>
+          ) : (
+            <Stack direction="horizontal" gap={3}>
+              <NavLink to="/login">
+                <MyButton
+                  className={`${styles.btn} border-0 p-2 rounded-pill`}
+                  style={{ minWidth: "fit-content" }}
+                  text="Log in"
                 />
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.ItemText className="fw-bold">
-                  Hi, {loggedInUser?.userName}
-                </Dropdown.ItemText>
-                <Dropdown.Item
-                  as={NavLink}
-                  to={`/profile/${loggedInUser?.userName}`}
-                >
-                  Profile
-                </Dropdown.Item>
-                <Dropdown.ItemText onClick={logoutUser} className="cursor">
-                  Logout
-                </Dropdown.ItemText>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Stack>
-        ) : (
-          <Stack direction="horizontal" gap={3}>
-            <NavLink to="/login">
-              <MyButton
-                className={`${styles.btn} border-0 p-2 rounded-pill`}
-                style={{ minWidth: "fit-content" }}
-                text="Log in"
-              />
-            </NavLink>
-            <NavLink to="/signup">
-              <MyButton
-                className="d-none d-md-block border-0 bg-secondary-subtle text-dark p-2 rounded-pill"
-                style={{ minWidth: "fit-content" }}
-                text="Sign up"
-              />
-            </NavLink>
-          </Stack>
-        )}
-      </div>
-    </Container>
+              </NavLink>
+              <NavLink to="/signup">
+                <MyButton
+                  className="d-none d-md-block border-0 bg-secondary-subtle text-dark p-2 rounded-pill"
+                  style={{ minWidth: "fit-content" }}
+                  text="Sign up"
+                />
+              </NavLink>
+            </Stack>
+          )}
+        </div>
+      </Container>
+    </div>
   );
 }

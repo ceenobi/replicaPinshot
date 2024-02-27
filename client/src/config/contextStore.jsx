@@ -13,8 +13,9 @@ export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
   const [fetchUser, setLoggedInUser] = useState("");
+  const getUserRef = useRef();
   const loggedInUser = useMemo(() => fetchUser, [fetchUser]);
-  // const getUserRef = useRef();
+  // const loggedInUser = (getUserRef.current = fetchUser);
 
   const token = JSON.parse(localStorage.getItem("usertoken"));
 
@@ -28,11 +29,11 @@ export default function AuthProvider({ children }) {
     }
   }, [token]);
 
+  console.log(loggedInUser);
+
   useEffect(() => {
     getUser();
   }, [getUser]);
-
-  console.log("user", loggedInUser);
 
   return (
     <AuthContext.Provider value={{ loggedInUser }}>
