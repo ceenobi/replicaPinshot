@@ -29,7 +29,7 @@ export default function Explore() {
       console.error(error);
     }
   };
-  
+
   const allPins = [...moreData, ...data];
 
   return (

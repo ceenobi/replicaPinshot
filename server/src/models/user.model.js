@@ -20,7 +20,7 @@ const userSchema = new Schema(
     profilePhoto: {
       type: String,
       default:
-        "https://res.cloudinary.com/ceenobi/image/upload/v1698666381/icons/user-avatar-profile-icon-black-vector-illustration_mpn3ef.jpg",
+        "https://res.cloudinary.com/ceenobi/image/upload/v1709243852/icons/unnamed_fuwmdn.webp",
     },
     bio: {
       type: String,

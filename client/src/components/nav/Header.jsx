@@ -12,7 +12,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "@hooks";
 import { PiCameraPlus } from "react-icons/pi";
 import { userService } from "@services";
-import { logo } from "@assets";
+import { logo, avatar } from "@assets";
 import styles from "./nav.module.css";
 import MyButton from "../MyButton";
 
@@ -57,12 +57,12 @@ export default function Header() {
           </Stack>
 
           <Form
-            style={{ minWidth: "50%" }}
+            style={{ minWidth: "45%" }}
             className="d-none d-md-block mx-auto"
           >
             <InputGroup className=" w-100 rounded-pill border-0 bg-secondary-subtle">
               <Form.Control
-                placeholder="Search"
+                placeholder="Search pins, users..."
                 aria-label="Search bar"
                 className="rounded-start-pill border-0 bg-transparent p-2"
               />
@@ -85,7 +85,11 @@ export default function Header() {
               <Dropdown>
                 <Dropdown.Toggle variant="none" id="dropdown-basic">
                   <Image
-                    src={loggedInUser?.profilePhoto}
+                    src={
+                      loggedInUser?.profilePhoto
+                        ? loggedInUser?.profilePhoto
+                        : avatar
+                    }
                     roundedCircle
                     className="object-fit-cover"
                     style={{ width: "35px", height: "35px" }}

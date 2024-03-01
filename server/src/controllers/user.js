@@ -65,7 +65,12 @@ export const signUp = async (req, res, next) => {
       }
       res
         .status(201)
-        .json({ sendMail, access_token, msg: "User registration successfull" });
+        .json({
+          sendMail,
+          access_token,
+          user,
+          msg: "User registration successfull",
+        });
     }
   } catch (error) {
     next(error);
@@ -156,9 +161,6 @@ export const login = async (req, res, next) => {
     const access_token = generateToken(user._id, user.role);
     res.status(200).json({ access_token, msg: "Login successful" });
   } catch (error) {
-    // if (error.name === "ValidationError") {
-    //   return next(createHttpError(400, error.message));
-    // }
     next(error);
   }
 };

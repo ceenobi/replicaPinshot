@@ -25,10 +25,15 @@ const dislikeAPin = async (pinId, userId) => {
   });
 };
 
+const getRelatedPins = async (pinId) => {
+  return await connect.get(`/pin/${pinId}/related`);
+};
+
 export default {
   getRandomPins,
   getFollowedPins,
   getAPin,
   likeAPin,
   dislikeAPin,
+  getRelatedPins,
 };

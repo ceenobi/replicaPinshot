@@ -10,7 +10,10 @@ export const verifyToken =
   async (req, res, next) => {
     if (!Array.isArray(roles)) roles = [roles];
     const { authorization: token } = req.headers;
-    if (!token) return next(createHttpError(401, "No Token found"));
+    if (!token)
+      return next(
+        createHttpError(401, "Unable to perform request, pls log in")
+      );
     if (!token.startsWith("Bearer"))
       return next(createHttpError(401, "Token format is invalid"));
     const tokenString = token.split(" ")[1];

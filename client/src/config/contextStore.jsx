@@ -1,23 +1,35 @@
 import {
   createContext,
-  useState,
-  useMemo,
-  useRef,
   useEffect,
   useCallback,
+  useState,
+  useMemo,
 } from "react";
 import PropTypes from "prop-types";
 import { userService } from "@services";
 
+let initialUser = "";
+
 export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const [fetchUser, setLoggedInUser] = useState("");
-  const getUserRef = useRef();
+  const [fetchUser, setLoggedInUser] = useState(initialUser);
   const loggedInUser = useMemo(() => fetchUser, [fetchUser]);
-  // const loggedInUser = (getUserRef.current = fetchUser);
-
   const token = JSON.parse(localStorage.getItem("usertoken"));
+
+  useEffect(() => {
+    const getUser = JSON.parse(localStorage.getItem("userinfo"));
+    if (getUser) {
+      setLoggedInUser(getUser);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Persist state changes to localStorage
+    if (loggedInUser !== initialUser) {
+      localStorage.setItem("userinfo", JSON.stringify(loggedInUser));
+    }
+  }, [loggedInUser]);
 
   const getUser = useCallback(async () => {
     if (!token) return;
@@ -27,16 +39,14 @@ export default function AuthProvider({ children }) {
     } catch (error) {
       console.log(error);
     }
-  }, [token]);
-
-  console.log(loggedInUser);
+  }, [token, setLoggedInUser]);
 
   useEffect(() => {
     getUser();
   }, [getUser]);
 
   return (
-    <AuthContext.Provider value={{ loggedInUser }}>
+    <AuthContext.Provider value={{ loggedInUser, setLoggedInUser }}>
       {children}
     </AuthContext.Provider>
   );

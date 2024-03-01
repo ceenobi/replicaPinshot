@@ -5,6 +5,8 @@ import MasonryLayout from "./MasonryLayout";
 import PinCard from "./PinCard";
 import PinModal from "./pin/PinModal";
 import MyModal from "./MyModal";
+import Comments from "./pin/Comments";
+import CommentModal from "./pin/CommentModal";
 
 export {
   Header,
@@ -14,4 +16,6 @@ export {
   PinCard,
   PinModal,
   MyModal,
+  Comments,
+  CommentModal,
 };

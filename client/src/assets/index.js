@@ -4,7 +4,17 @@ import danewetto from "./dane-wetton-zdLdgGbi9Ow-unsplash.jpg";
 import hejunhui from "./he-junhui-2D4vFlcQGzM-unsplash.jpg";
 import jayson from "./jayson-hinrichsen-xTKSR0omGS4-unsplash.jpg";
 import logo from "./logo.svg";
+import avatar from "./unnamed.webp";
 
 const imgs = [boxedwater, coppertist, danewetto, hejunhui];
 
-export { imgs, boxedwater, coppertist, danewetto, hejunhui, jayson, logo };
+export {
+  imgs,
+  boxedwater,
+  coppertist,
+  danewetto,
+  hejunhui,
+  jayson,
+  logo,
+  avatar,
+};

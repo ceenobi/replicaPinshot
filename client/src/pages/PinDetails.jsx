@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PageLayout } from "@layouts";
 import { useFetch, useSlide, useTitle, useAuthContext } from "@hooks";
 import { useParams, Link } from "react-router-dom";
-import { pinService } from "@services";
+import { pinService, userService } from "@services";
 import { Spinner, downloadImage } from "@utils";
 import { Row, Col, Image } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
@@ -13,8 +13,15 @@ import {
   IoMdArrowDropright,
   IoMdDownload,
 } from "react-icons/io";
-import { PinModal } from "@components";
+import {
+  PinModal,
+  MyButton,
+  Comments,
+  MasonryLayout,
+  PinCard,
+} from "@components";
 import { toast } from "react-toastify";
+import { avatar } from "@assets";
 
 export default function PinDetails() {
   const [showPicModal, setShowPicModal] = useState(false);
@@ -25,14 +32,16 @@ export default function PinDetails() {
     loading,
     setData,
   } = useFetch(pinService.getAPin, pinId);
+  const { error: err, data: relatedPins } = useFetch(
+    pinService.getRelatedPins,
+    pinId
+  );
   const { nextSlide, prevSlide, current, setCurrent } = useSlide(
     pin?.image?.length
   );
-  const { loggedInUser } = useAuthContext() || {};
+  const { loggedInUser, setLoggedInUser } = useAuthContext() || {};
   useTitle(pin?.title);
   uuidv4();
-
-  console.log(pin);
 
   const expandImg = (index) => {
     setShowPicModal(true);
@@ -47,11 +56,7 @@ export default function PinDetails() {
       setData(pin.data);
     } catch (error) {
       console.log(error);
-      toast.error(
-        loggedInUser._id
-          ? error.response?.data.error
-          : "Unauthorized: login to perform action"
-      );
+      toast.error(error.response?.data.error);
     }
   };
 
@@ -63,13 +68,44 @@ export default function PinDetails() {
       setData(pin.data);
     } catch (error) {
       console.log(error);
-      toast.error(
-        loggedInUser._id
-          ? error.response?.data.error
-          : "Unauthorized: login to perform action"
-      );
+      toast.error(error.response?.data.error);
     }
   };
+
+  const follow = async (pinUserId) => {
+    try {
+      const res = await userService.followAUser(pinUserId, loggedInUser._id);
+      if (res.status === 200) {
+        const pin = await pinService.getAPin(pinId);
+        setData(pin.data);
+        const user = await userService.authUser();
+        setLoggedInUser(user.data);
+        toast.success(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data.error);
+    }
+  };
+
+  const unfollow = async (pinUserId) => {
+    try {
+      const res = await userService.unfollowAUser(pinUserId, loggedInUser._id);
+      if (res.status === 200) {
+        const pin = await pinService.getAPin(pinId);
+        setData(pin.data);
+        const user = await userService.authUser();
+        setLoggedInUser(user.data);
+        toast.success(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data.error);
+    }
+  };
+
+  const isLiked = pin.likes?.includes(loggedInUser._id);
+  const isFollowed = loggedInUser.following?.includes(pin.userId?._id);
 
   return (
     <PageLayout>
@@ -84,14 +120,14 @@ export default function PinDetails() {
                 {pin.image?.map((img, i) => (
                   <div key={uuidv4()} className="pinId-Img position-relative">
                     {i === current && (
-                      <>
+                      <div>
                         <LazyLoadImage
                           effect="blur"
                           src={img}
                           alt={pin.title}
                           className="rounded-4 object-fit-cover"
                           width="100%"
-                          height="100%"
+                          height={600}
                         />
                         <div
                           className="position-absolute top-0 end-0 p-2"
@@ -105,22 +141,22 @@ export default function PinDetails() {
                           />
                         </div>
                         {pin.image?.length > 1 && (
-                          <div className="focus-arrow d-none d-md-block">
+                          <div className="focus-arrow d-none d-md-flex w-100 justify-content-between position-absolute top-50 z-2">
                             <IoMdArrowDropleft
-                              className="position-absolute top-50 start-0 translate-middle z-2 cursor"
+                              className="cursor"
                               size="50px"
-                              color="#dd5e14"
+                              color="#ffffff"
                               onClick={prevSlide}
                             />
                             <IoMdArrowDropright
-                              className="position-absolute top-50 start-100 translate-middle z-2 cursor"
+                              className="cursor"
                               size="50px"
-                              color="#dd5e14"
+                              color="#ffffff"
                               onClick={nextSlide}
                             />
                           </div>
                         )}
-                      </>
+                      </div>
                     )}
                   </div>
                 ))}
@@ -160,52 +196,102 @@ export default function PinDetails() {
             <Col lg={6} className="mb-4 px-lg-4">
               <h1 className="fw-bold mb-4 display-6">{pin.title}</h1>
               <p className="mb-4">{pin.description}</p>
-              <div className="mb-4 d-flex gap-4 w-100">
-                {pin.image?.map((img, i) => (
-                  <div key={uuidv4()} title="download this image">
-                    {i === current && (
-                      <IoMdDownload
-                        size="30px"
-                        className="cursor"
-                        onClick={() => downloadImage(pin.title, img)}
-                      />
-                    )}
-                  </div>
-                ))}
+              <div className="mb-4 d-flex justify-content-between justify-content-md-start w-100 gap-md-4">
+                <div>
+                  {pin.image?.map((img, i) => (
+                    <div key={uuidv4()} title="download this image">
+                      {i === current && (
+                        <IoMdDownload
+                          size="30px"
+                          className="cursor"
+                          onClick={() => downloadImage(pin.title, img)}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
                 <div className="d-flex align-items-center gap-2">
                   <FaHeart
-                    size="30px"
-                    className={`cursor ${pin.likes?.includes(
-                      loggedInUser._id ? "text-danger" : ""
-                    )}`}
-                    title={
-                      pin.likes?.includes(loggedInUser._id)
-                        ? "You liked this pin"
-                        : "Click to like"
-                    }
-                    onClick={
-                      pin.likes?.includes(loggedInUser._id)
-                        ? handleDislike
-                        : handleLike
-                    }
+                    size="28px"
+                    className={`cursor ${isLiked ? "text-danger" : ""}`}
+                    title={isLiked ? "You liked this pin" : "Click to like"}
+                    onClick={isLiked ? handleDislike : handleLike}
                   />
                   <span>{pin.likes?.length} likes</span>
                 </div>
               </div>
+              <div className="d-flex gap-2 flex-wrap mb-4">
+                <span>Tags:</span>
+                {pin.tags?.map((tag) => (
+                  <MyButton
+                    key={uuidv4()}
+                    className="mx-1 icon bg-secondary-subtle text-black text-lowercase"
+                    size="sm"
+                    text={tag}
+                  />
+                ))}
+              </div>
               <div className="d-flex align-items-center ">
                 <div className="d-flex align-items-center gap-2 flex-grow-1">
-                  <Link to={`/profile/${pin.userId?.username}`}>
+                  <Link to={`/profile/${pin.userId?.userName}`}>
                     <Image
-                      src={pin.userId?.profilePhoto}
+                      src={
+                        pin.userId?.profilePhoto
+                          ? pin.userId?.profilePhoto
+                          : avatar
+                      }
                       roundedCircle
                       style={{ width: "45px", height: "45px" }}
-                      alt={pin.userId?.username}
+                      alt={pin.userId?.userName}
                     />
                   </Link>
+                  <div>
+                    <Link
+                      to={`/profile/${pin.userId?.userName}`}
+                      className="fs-6 fw-bold"
+                    >
+                      {pin.userId?.userName}
+                    </Link>
+                    <div>{pin.userId?.followers?.length} followers</div>
+                  </div>
                 </div>
+                {loggedInUser._id !== pin.userId?._id && (
+                  <MyButton
+                    text={isFollowed ? "Unfollow" : "Follow"}
+                    style={{
+                      backgroundColor: isFollowed
+                        ? "var(--teal200)"
+                        : "var(--orangeLight",
+                    }}
+                    onClick={
+                      isFollowed
+                        ? () => unfollow(pin.userId?._id)
+                        : () => follow(pin.userId?._id)
+                    }
+                  />
+                )}
               </div>
+              <Comments pinId={pinId} />
             </Col>
           </Row>
+          <div className="mt-3">
+            <h1 className="text-center display-6 fw-bold">More to explore</h1>
+            {err && <p>{err}</p>}
+            {relatedPins?.length > 0 ? (
+              <div className="mt-4">
+                <MasonryLayout>
+                  {relatedPins.map((pin) => (
+                    <PinCard key={pin._id} {...pin} />
+                  ))}
+                </MasonryLayout>
+              </div>
+            ) : (
+              <p className="mt-4">
+                {" "}
+                Sorry we couldn&apos;t find any pins for recommendation.
+              </p>
+            )}
+          </div>
         </>
       )}
     </PageLayout>
