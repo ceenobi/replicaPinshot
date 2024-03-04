@@ -1,6 +1,14 @@
 import { Suspense, lazy } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Home, Explore, Login, HomeUser, Signup, PinDetails } from "@pages";
+import {
+  Home,
+  Explore,
+  Login,
+  HomeUser,
+  Signup,
+  PinDetails,
+  Profile,
+} from "@pages";
 import { Spinner } from "@utils";
 import ProtectedRoutes from "./ProtectedRoutes";
 
@@ -34,6 +42,15 @@ export default function AppRoutes() {
       path: "pin/:pinId",
       name: "PinDetails",
       element: <PinDetails />,
+    },
+    {
+      path: "profile/:userName",
+      name: "Profile",
+      element: (
+        <ProtectedRoutes isAuth={token}>
+          <Profile />
+        </ProtectedRoutes>
+      ),
     },
   ];
 

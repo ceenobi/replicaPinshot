@@ -62,7 +62,7 @@ export default function Header() {
           >
             <InputGroup className=" w-100 rounded-pill border-0 bg-secondary-subtle">
               <Form.Control
-                placeholder="Search pins, users..."
+                placeholder="Search pins, users, and tags..."
                 aria-label="Search bar"
                 className="rounded-start-pill border-0 bg-transparent p-2"
               />

@@ -102,8 +102,6 @@ export default function Comments({ pinId }) {
     error && <p>{error}</p>;
   }
 
-  console.log(pinComments);
-
   return (
     <div className="my-5">
       <>
@@ -115,6 +113,7 @@ export default function Comments({ pinId }) {
           <>
             {pinComments?.length > 0 ? (
               <div className="my-4">
+                <p className="fw-bold">Comments</p>
                 {pinComments.slice(0, 5).map((comment) => (
                   <div key={comment._id} className="d-flex gap-2 mb-3">
                     <div className="d-flex gap-2">
@@ -184,7 +183,7 @@ export default function Comments({ pinId }) {
         )}
       </>
 
-      {pinComments?.length > 0 && (
+      {pinComments?.length > 5 && (
         <CommentModal
           pinComments={pinComments}
           handleLike={handleLike}

@@ -29,6 +29,25 @@ const getRelatedPins = async (pinId) => {
   return await connect.get(`/pin/${pinId}/related`);
 };
 
+const getPinsByUser = async (userId) => {
+  return await connect.get(`/pin/${userId}/userpins`, {
+    headers: authHeader(),
+  });
+};
+
+const deleteAPin = async (pinId) => {
+  return await connect.delete(`/pin/${pinId}`, {
+    headers: authHeader(),
+  });
+};
+
+const getPinsLikedByUser = async (userId) => {
+  return await connect.get(`/pin/${userId}/likedpins`, {
+    headers: authHeader(),
+  });
+};
+
+
 export default {
   getRandomPins,
   getFollowedPins,
@@ -36,4 +55,8 @@ export default {
   likeAPin,
   dislikeAPin,
   getRelatedPins,
+  getPinsByUser,
+  deleteAPin,
+  getPinsLikedByUser,
 };
+
