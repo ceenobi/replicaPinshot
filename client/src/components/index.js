@@ -10,6 +10,9 @@ import CommentModal from "./pin/CommentModal";
 import UserPins from "./profile/UserPins";
 import ImageModal from "./profile/ImageModal";
 import UserLikedPins from "./profile/UserLikedPins";
+import Followers from "./profile/Followers";
+import Following from "./profile/Following";
+import Footer from "./Footer";
 
 export {
   Header,
@@ -24,4 +27,7 @@ export {
   UserPins,
   ImageModal,
   UserLikedPins,
+  Followers,
+  Following,
+  Footer
 };

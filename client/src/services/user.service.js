@@ -36,6 +36,18 @@ const resendEmailVerificationLink = async (userId) => {
   });
 };
 
+const getMyFollowers = async (userId) => {
+  return connect.get(`/auth/followers/${userId}`, {
+    headers: authHeader(),
+  });
+};
+
+const getFollowing = async (userId) => {
+  return connect.get(`/auth/following/${userId}`, {
+    headers: authHeader(),
+  });
+};
+
 const logout = () => {
   localStorage.clear();
   window.location.reload();
@@ -50,4 +62,6 @@ export default {
   logout,
   getUserProfile,
   resendEmailVerificationLink,
+  getMyFollowers,
+  getFollowing,
 };

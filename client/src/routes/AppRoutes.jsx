@@ -8,6 +8,7 @@ import {
   Signup,
   PinDetails,
   Profile,
+  Search,
 } from "@pages";
 import { Spinner } from "@utils";
 import ProtectedRoutes from "./ProtectedRoutes";
@@ -51,6 +52,11 @@ export default function AppRoutes() {
           <Profile />
         </ProtectedRoutes>
       ),
+    },
+    {
+      path: "search",
+      name: "Search",
+      element: <Search />,
     },
   ];
 

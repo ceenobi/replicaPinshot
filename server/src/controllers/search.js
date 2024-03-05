@@ -12,11 +12,11 @@ export const getTags = async (req, res, next) => {
     if (cacheTags) {
       return res.status(200).json(cacheTags);
     }
-    const getPins = await Pin.find();
+    const getPins = await Pin.find()
     const filterTags = getPins.flatMap((pin) => pin.tags);
     const removeTagsDuplicates = [
       ...filterTags.filter((tag, i) => {
-        return filterTags.indexOf(tag) === i && item?.length > 0;
+        return filterTags.indexOf(tag) === i && tag?.length > 0;
       }),
     ];
     cache.set("tags", removeTagsDuplicates);

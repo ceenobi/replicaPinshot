@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
-// import PropTypes from "prop-types";
-import { Header } from "@components";
+import { Header, Footer } from "@components";
 import { useLocation } from "react-router-dom";
 
 export default function Root() {
@@ -13,6 +12,7 @@ export default function Root() {
       <main className="min-vh-100">
         {!matchPaths.includes(location.pathname) && <Header />}
         <Outlet />
+        {!matchPaths.includes(location.pathname) && <Footer />}
       </main>
     </>
   );

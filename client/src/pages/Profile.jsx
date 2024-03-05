@@ -6,7 +6,13 @@ import { format } from "timeago.js";
 import { useFetch, useTitle, useAuthContext } from "@hooks";
 import { Spinner } from "@utils";
 import { userService } from "@services";
-import { MyButton, UserPins, UserLikedPins } from "@components";
+import {
+  MyButton,
+  UserPins,
+  UserLikedPins,
+  Followers,
+  Following,
+} from "@components";
 import { toast } from "react-toastify";
 
 export default function Profile() {
@@ -159,10 +165,10 @@ export default function Profile() {
                   <UserLikedPins userId={user._id} />
                 </Tab>
                 <Tab eventKey="followers" title="Followers">
-                  Tab content for Home
+                  <Followers userId={user._id} />
                 </Tab>
                 <Tab eventKey="following" title="Following">
-                  Tab content for Home
+                  <Following userId={user._id} />
                 </Tab>
               </Tabs>
             </div>
