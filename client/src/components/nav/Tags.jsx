@@ -11,12 +11,11 @@ export default function Tags() {
   const navigate = useNavigate();
   const { data: tags } = useFetch(searchService.getAllTags);
   const { scroll, scrollRef } = useScroll();
-
   uuidv4();
 
   const handleTagQuery = (tag) => {
     setTagQuery(tag);
-    navigate(`search/?query=${tag}`);
+    navigate(`/search/?query=${tag}`);
   };
 
   return (
@@ -47,13 +46,13 @@ export default function Tags() {
         </div>
       </div>
       <IoMdArrowDropleft
-        className="position-absolute top-50 start-0 translate-middle z-2 cursor"
+        className="d-none d-md-block position-absolute top-50 start-0 translate-middle z-2 cursor"
         size="35px"
         color="#dd5e14"
         onClick={() => scroll("left")}
       />
       <IoMdArrowDropright
-        className="position-absolute top-50 start-100 translate-middle z-2 cursor"
+        className="d-none d-md-block position-absolute top-50 start-100 translate-middle z-2 cursor"
         size="35px"
         color="#dd5e14"
         onClick={() => scroll("right")}

@@ -47,6 +47,15 @@ const getPinsLikedByUser = async (userId) => {
   });
 };
 
+const createAPin = async (title, description, image, tags) => {
+  return await connect.post(
+    `/pin/create`,
+    { title, description, image, tags },
+    {
+      headers: authHeader(),
+    }
+  );
+};
 
 export default {
   getRandomPins,
@@ -58,5 +67,5 @@ export default {
   getPinsByUser,
   deleteAPin,
   getPinsLikedByUser,
+  createAPin,
 };
-

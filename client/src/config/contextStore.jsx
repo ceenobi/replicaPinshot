@@ -14,6 +14,7 @@ export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
   const [fetchUser, setLoggedInUser] = useState(initialUser);
+  const [showSearch, setShowSearch] = useState(false);
   const loggedInUser = useMemo(() => fetchUser, [fetchUser]);
   const token = JSON.parse(localStorage.getItem("usertoken"));
 
@@ -46,7 +47,9 @@ export default function AuthProvider({ children }) {
   }, [getUser]);
 
   return (
-    <AuthContext.Provider value={{ loggedInUser, setLoggedInUser }}>
+    <AuthContext.Provider
+      value={{ loggedInUser, setLoggedInUser, showSearch, setShowSearch }}
+    >
       {children}
     </AuthContext.Provider>
   );

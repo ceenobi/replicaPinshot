@@ -58,19 +58,12 @@ export const signUp = async (req, res, next) => {
         subject: "Email verification link",
         text: `Hello, ${userName}, please verify your email by clicking on the link: ${messageLink}. Link expires in 30 minutes`,
       });
-      if (!sendMail) {
-        return next(
-          createHttpError(400, "Verification message could not be sent")
-        );
-      }
-      res
-        .status(201)
-        .json({
-          sendMail,
-          access_token,
-          user,
-          msg: "User registration successfull",
-        });
+      res.status(201).json({
+        sendMail,
+        access_token,
+        user,
+        msg: "User registration successfull",
+      });
     }
   } catch (error) {
     next(error);
@@ -101,12 +94,13 @@ export const sendEmailVerificationLink = async (req, res, next) => {
       subject: "Email verification link",
       text: `Hello, ${user.userName}, please verify your email by clicking on the link: ${messageLink}. Link expires in 30 minutes`,
     });
-    if (!sendMail) {
+    if (sendMail.success === false) {
       return next(
-        createHttpError(400, "Verification message could not be sent")
+        createHttpError(500, "Verification message could not be sent")
       );
+    } else {
+      res.status(200).json({ sendMail });
     }
-    res.status(200).json({ sendMail });
   } catch (error) {
     next(error);
   }
@@ -216,7 +210,7 @@ export const updateUserProfile = async (req, res, next) => {
     };
     Object.keys(updatedFields).forEach(
       (key) =>
-        (updatedFields[key] === " " || undefined) && delete updatedFields[key]
+        (updatedFields[key] === "" || undefined) && delete updatedFields[key]
     );
     const updatedUser = await User.findByIdAndUpdate(userId, updatedFields, {
       new: true,
@@ -228,7 +222,6 @@ export const updateUserProfile = async (req, res, next) => {
       return next(createHttpError(401, "You cannot access this user"));
     }
     res.status(200).json({
-      user: updatedUser,
       msg: "User info updated successfully",
     });
   } catch (error) {
@@ -254,14 +247,18 @@ export const recoverPasswordLink = async (req, res, next) => {
     const messageLink = `${env.BASE_URL}/reset-password/${user._id}/${setToken.token}`;
     if (!messageLink)
       return next(createHttpError(400, "Verification message not sent"));
-    await sendEmail({
+    const emailStatus = await sendEmail({
       userName: user.userName,
       from: env.USER_MAIL_LOGIN,
       to: user.email,
       subject: "Password recovery link",
       text: `Hello, ${user.userName}, please click the link: to reset your pasword ${messageLink}. Link expires in 30 minutes`,
     });
-    res.status(200).send("Recovery password link sent to your email");
+    if (emailStatus.success === false) {
+      return next(createHttpError(500, "Verification message not sent"));
+    } else {
+      res.status(200).send("Recovery password link sent to your email");
+    }
   } catch (error) {
     next(error);
   }

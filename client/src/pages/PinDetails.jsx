@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PageLayout } from "@layouts";
 import { useFetch, useSlide, useTitle, useAuthContext } from "@hooks";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { pinService, userService } from "@services";
 import { Spinner, downloadImage } from "@utils";
 import { Row, Col, Image } from "react-bootstrap";
@@ -25,6 +25,8 @@ import { avatar } from "@assets";
 
 export default function PinDetails() {
   const [showPicModal, setShowPicModal] = useState(false);
+  const [tagQuery, setTagQuery] = useState("");
+  const navigate = useNavigate();
   const { pinId } = useParams();
   const {
     error,
@@ -46,6 +48,12 @@ export default function PinDetails() {
   const expandImg = (index) => {
     setShowPicModal(true);
     setCurrent(index);
+  };
+
+  const handleTagQuery = (tag) => {
+    setTagQuery(tag);
+    console.log(tagQuery);
+    navigate(`/search/?query=${tag}`);
   };
 
   const handleLike = async () => {
@@ -242,6 +250,7 @@ export default function PinDetails() {
                         className="mx-1 icon bg-secondary-subtle text-black text-lowercase"
                         size="sm"
                         text={tag}
+                        onClick={() => handleTagQuery(tag)}
                       />
                     ))}
                   </div>

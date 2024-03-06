@@ -12,6 +12,7 @@ import {
   UserLikedPins,
   Followers,
   Following,
+  UpdateProfile,
 } from "@components";
 import { toast } from "react-toastify";
 
@@ -78,7 +79,6 @@ export default function Profile() {
 
   const isFollowed = loggedInUser.following?.includes(user?._id);
 
-  console.log(user);
   return (
     <PageLayout>
       {error ? (
@@ -98,7 +98,7 @@ export default function Profile() {
                     className="mb-2 object-fit-cover"
                     alt={user?.userName}
                   />
-                  <p>Edit profile</p>
+                  <UpdateProfile user={user} setData={setData} />
                 </div>
                 <div>
                   <div className="mb-0 d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-2">
@@ -159,16 +159,16 @@ export default function Profile() {
                 fill
               >
                 <Tab eventKey="user" title="Pins">
-                  <UserPins userId={user._id} />
+                  <UserPins userId={user?._id} />
                 </Tab>
                 <Tab eventKey="likedPins" title="Liked Pins">
-                  <UserLikedPins userId={user._id} />
+                  <UserLikedPins userId={user?._id} />
                 </Tab>
                 <Tab eventKey="followers" title="Followers">
-                  <Followers userId={user._id} />
+                  <Followers userId={user?._id} />
                 </Tab>
                 <Tab eventKey="following" title="Following">
-                  <Following userId={user._id} />
+                  <Following userId={user?._id} />
                 </Tab>
               </Tabs>
             </div>

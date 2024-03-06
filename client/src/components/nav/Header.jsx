@@ -24,16 +24,15 @@ export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [showSearch, setShowSearch] = useState(false);
   const [resultBox, setResultBox] = useState(false);
-  const { loggedInUser } = useAuthContext() || {};
+  const { loggedInUser, showSearch } = useAuthContext() || {};
 
   const paths = ["/search", "/search/"];
   const matchPaths = paths.map((path) => path);
 
   useEffect(() => {
     if (searchQuery.length > 0) {
-      setResultBox(location.pathname === "/search" ? false : true);
+      setResultBox(true);
     } else {
       setResultBox(false);
     }
@@ -63,123 +62,152 @@ export default function Header() {
       }
     >
       <Container fluid className={`${styles.navContainer} fixed-top w-100 p-3`}>
-        <div className="d-flex justify-content-between align-items-center position-relative">
-          <Stack direction="horizontal" gap={3}>
-            <NavLink to="/">
-              <Image src={logo} alt="logo" style={{ width: "100px" }} />
-            </NavLink>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive
-                  ? "activeLink fw-bold d-none d-md-block"
-                  : "no-activeLink fw-bold d-none d-md-block"
-              }
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to="/explore"
-              className={({ isActive }) =>
-                isActive
-                  ? "activeLink fw-bold d-none d-md-block"
-                  : "no-activeLink fw-bold d-none d-md-block"
-              }
-            >
-              Explore
-            </NavLink>
-          </Stack>
-
-          <Form
-            style={{ minWidth: "45%" }}
-            className="d-none d-md-block mx-auto"
-            onSubmit={handleSubmit}
-          >
-            <InputGroup className=" w-100 rounded-pill border-0 bg-secondary-subtle">
-              <Form.Control
-                placeholder="Search pins, users, and tags..."
-                aria-label="Search bar"
-                className="rounded-start-pill border-0 bg-transparent p-2"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Button variant="none" type="submit">
-                {resultBox ? (
-                  <IoCloseSharp size="20px" onClick={closeSearchBox} />
-                ) : (
-                  <FiSearch size="20px" />
-                )}
-              </Button>
-            </InputGroup>
-          </Form>
-
-          {loggedInUser ? (
-            <Stack direction="horizontal" gap={2}>
+        {!showSearch ? (
+          <div className="d-flex justify-content-between align-items-center position-relative">
+            <Stack direction="horizontal" gap={3}>
+              <NavLink to="/">
+                <Image src={logo} alt="logo" style={{ width: "100px" }} />
+              </NavLink>
               <NavLink
-                to="/create-pin"
+                to="/"
                 className={({ isActive }) =>
                   isActive
-                    ? "activeLink d-none d-md-block"
-                    : "no-activeLink d-none d-md-block"
+                    ? "activeLink fw-bold d-none d-md-block"
+                    : "no-activeLink fw-bold d-none d-md-block"
                 }
               >
-                <PiCameraPlus size="30px" />
+                Home
               </NavLink>
-              <Dropdown>
-                <Dropdown.Toggle variant="none" id="dropdown-basic">
-                  <Image
-                    src={
-                      loggedInUser?.profilePhoto
-                        ? loggedInUser?.profilePhoto
-                        : avatar
-                    }
-                    roundedCircle
-                    className="object-fit-cover"
-                    style={{ width: "35px", height: "35px" }}
-                    alt={loggedInUser?.userName}
+              <NavLink
+                to="/explore"
+                className={({ isActive }) =>
+                  isActive
+                    ? "activeLink fw-bold d-none d-md-block"
+                    : "no-activeLink fw-bold d-none d-md-block"
+                }
+              >
+                Explore
+              </NavLink>
+            </Stack>
+
+            <Form
+              style={{ minWidth: "45%" }}
+              className="d-none d-md-block mx-auto"
+              onSubmit={handleSubmit}
+            >
+              <InputGroup className=" w-100 rounded-pill border-0 bg-secondary-subtle">
+                <Form.Control
+                  placeholder="Search pins, users, and tags..."
+                  aria-label="Search bar"
+                  className="rounded-start-pill border-0 bg-transparent p-2"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Button variant="none" type="submit">
+                  {resultBox ? (
+                    <IoCloseSharp size="20px" onClick={closeSearchBox} />
+                  ) : (
+                    <FiSearch size="20px" />
+                  )}
+                </Button>
+              </InputGroup>
+            </Form>
+
+            {loggedInUser ? (
+              <Stack direction="horizontal" gap={2}>
+                <NavLink
+                  to="/create-pin"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "activeLink d-none d-md-block"
+                      : "no-activeLink d-none d-md-block"
+                  }
+                >
+                  <PiCameraPlus size="30px" />
+                </NavLink>
+                <Dropdown>
+                  <Dropdown.Toggle variant="none" id="dropdown-basic">
+                    <Image
+                      src={
+                        loggedInUser?.profilePhoto
+                          ? loggedInUser?.profilePhoto
+                          : avatar
+                      }
+                      roundedCircle
+                      className="object-fit-cover"
+                      style={{ width: "35px", height: "35px" }}
+                      alt={loggedInUser?.userName}
+                    />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.ItemText className="fw-bold">
+                      Hi, {loggedInUser?.userName}
+                    </Dropdown.ItemText>
+                    <Dropdown.Item
+                      as={NavLink}
+                      to={`/profile/${loggedInUser?.userName}`}
+                    >
+                      Profile
+                    </Dropdown.Item>
+                    <Dropdown.ItemText onClick={logoutUser} className="cursor">
+                      Logout
+                    </Dropdown.ItemText>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Stack>
+            ) : (
+              <Stack direction="horizontal" gap={3}>
+                <NavLink to="/login">
+                  <MyButton
+                    className={`${styles.btn} border-0 p-2 rounded-pill`}
+                    style={{ minWidth: "fit-content" }}
+                    text="Log in"
                   />
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.ItemText className="fw-bold">
-                    Hi, {loggedInUser?.userName}
-                  </Dropdown.ItemText>
-                  <Dropdown.Item
-                    as={NavLink}
-                    to={`/profile/${loggedInUser?.userName}`}
-                  >
-                    Profile
-                  </Dropdown.Item>
-                  <Dropdown.ItemText onClick={logoutUser} className="cursor">
-                    Logout
-                  </Dropdown.ItemText>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Stack>
-          ) : (
-            <Stack direction="horizontal" gap={3}>
-              <NavLink to="/login">
-                <MyButton
-                  className={`${styles.btn} border-0 p-2 rounded-pill`}
-                  style={{ minWidth: "fit-content" }}
-                  text="Log in"
+                </NavLink>
+                <NavLink to="/signup">
+                  <MyButton
+                    className="d-none d-md-block border-0 bg-secondary-subtle text-dark p-2 rounded-pill"
+                    style={{ minWidth: "fit-content" }}
+                    text="Sign up"
+                  />
+                </NavLink>
+              </Stack>
+            )}
+            {resultBox && (
+              <SearchResult
+                searchQuery={searchQuery}
+                setResultBox={setResultBox}
+              />
+            )}
+          </div>
+        ) : (
+          <div className="d-md-none position-relative">
+            <Form className="d-md-none mx-auto" onSubmit={handleSubmit}>
+              <InputGroup className=" w-100 rounded-pill border-0 bg-secondary-subtle">
+                <Form.Control
+                  placeholder="Search pins, users, and tags..."
+                  aria-label="Search bar"
+                  className="rounded-start-pill border-0 bg-transparent p-2"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
-              </NavLink>
-              <NavLink to="/signup">
-                <MyButton
-                  className="d-none d-md-block border-0 bg-secondary-subtle text-dark p-2 rounded-pill"
-                  style={{ minWidth: "fit-content" }}
-                  text="Sign up"
-                />
-              </NavLink>
-            </Stack>
-          )}
-          {resultBox && (
-            <SearchResult
-              searchQuery={searchQuery}
-              setResultBox={setResultBox}
-            />
-          )}
-        </div>
+                <Button variant="none" type="submit">
+                  {resultBox ? (
+                    <IoCloseSharp size="20px" onClick={closeSearchBox} />
+                  ) : (
+                    <FiSearch size="20px" />
+                  )}
+                </Button>
+              </InputGroup>
+            </Form>
+            {resultBox && (
+              <SearchResult
+                searchQuery={searchQuery}
+                setResultBox={setResultBox}
+              />
+            )}
+          </div>
+        )}
         {matchPaths.includes(location.pathname) && <Tags />}
       </Container>
     </div>

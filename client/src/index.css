@@ -128,7 +128,7 @@ button:hover {
 
 .searchbox {
   position: absolute;
-  top: 230px;
+  top: 250px;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
@@ -140,6 +140,9 @@ button:hover {
 @media (min-width: 768px) {
   .form {
     width: 420px;
+  }
+  .searchbox {
+    top: 230px;
   }
 }
 

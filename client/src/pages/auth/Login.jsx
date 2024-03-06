@@ -39,7 +39,7 @@ export default function Login() {
       if (status === 200) {
         localStorage.setItem("usertoken", JSON.stringify(data.access_token));
         toast.success(data.msg);
-        window.location.replace(from);
+        window.location.replace("/");
       }
     } catch (error) {
       console.error(error);

@@ -48,6 +48,22 @@ const getFollowing = async (userId) => {
   });
 };
 
+const updateProfile = async (userName, email, password, profilePhoto, bio) => {
+  return await connect.patch(
+    "/auth/update-user",
+    {
+      userName,
+      email,
+      password,
+      profilePhoto,
+      bio,
+    },
+    {
+      headers: authHeader(),
+    }
+  );
+};
+
 const logout = () => {
   localStorage.clear();
   window.location.reload();
@@ -64,4 +80,5 @@ export default {
   resendEmailVerificationLink,
   getMyFollowers,
   getFollowing,
+  updateProfile,
 };

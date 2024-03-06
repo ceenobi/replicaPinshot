@@ -9,6 +9,7 @@ import {
   PinDetails,
   Profile,
   Search,
+  CreatePin,
 } from "@pages";
 import { Spinner } from "@utils";
 import ProtectedRoutes from "./ProtectedRoutes";
@@ -50,6 +51,15 @@ export default function AppRoutes() {
       element: (
         <ProtectedRoutes isAuth={token}>
           <Profile />
+        </ProtectedRoutes>
+      ),
+    },
+    {
+      path: "create-pin",
+      name: "Create Pin",
+      element: (
+        <ProtectedRoutes isAuth={token}>
+          <CreatePin />
         </ProtectedRoutes>
       ),
     },

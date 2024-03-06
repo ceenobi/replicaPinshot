@@ -13,6 +13,8 @@ import UserLikedPins from "./profile/UserLikedPins";
 import Followers from "./profile/Followers";
 import Following from "./profile/Following";
 import Footer from "./Footer";
+import ImageUpload from "./ImageUpload";
+import UpdateProfile from "./profile/UpdateProfile";
 
 export {
   Header,
@@ -29,5 +31,7 @@ export {
   UserLikedPins,
   Followers,
   Following,
-  Footer
+  Footer,
+  ImageUpload,
+  UpdateProfile,
 };
