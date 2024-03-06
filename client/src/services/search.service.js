@@ -8,4 +8,10 @@ const getAllTags = async () => {
   return await connect.get("/search/tags");
 };
 
-export default { searchUserOrPin, getAllTags };
+const deleteATag = async (pinId, index) => {
+  return await connect.delete(`/search/${pinId}/tags/${index}`, {
+    headers: authHeader(),
+  });
+};
+
+export default { searchUserOrPin, getAllTags, deleteATag };

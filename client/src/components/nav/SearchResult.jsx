@@ -17,7 +17,6 @@ export default function SearchResult({ searchQuery, setResultBox }) {
         try {
           setLoading(true);
           const res = await searchService.searchUserOrPin(searchQuery);
-          console.log(res);
           setResult(res.data);
         } catch (error) {
           console.log(error);
@@ -32,7 +31,7 @@ export default function SearchResult({ searchQuery, setResultBox }) {
   }, [searchQuery]);
 
   const redirectToSearch = () => {
-    navigate(`search/?query=${searchQuery}`);
+    navigate(`/search/?query=${searchQuery}`);
     setResultBox(false);
   };
 

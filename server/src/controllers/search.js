@@ -12,7 +12,7 @@ export const getTags = async (req, res, next) => {
     if (cacheTags) {
       return res.status(200).json(cacheTags);
     }
-    const getPins = await Pin.find()
+    const getPins = await Pin.find();
     const filterTags = getPins.flatMap((pin) => pin.tags);
     const removeTagsDuplicates = [
       ...filterTags.filter((tag, i) => {
@@ -27,7 +27,7 @@ export const getTags = async (req, res, next) => {
 };
 
 export const deleteATag = async (req, res, next) => {
-  const { id: pinId } = req.params;
+  const { id: pinId, index } = req.params;
   try {
     if (!isValidObjectId(pinId)) {
       return next(createHttpError(400, "Invalid pin id"));
@@ -37,8 +37,8 @@ export const deleteATag = async (req, res, next) => {
       return next(createHttpError(404, "Pin not found"));
     }
     const getTags = [...pin.tags];
-    const editTags = getTags.splice(index, 1);
-    await Pin.findByIdAndUpdate(pinId, { tags: editTags });
+    getTags.splice(index, 1);
+    await Pin.findByIdAndUpdate(pinId, { tags: getTags });
     res.status(200).send("Tag deleted");
   } catch (error) {
     next(error);

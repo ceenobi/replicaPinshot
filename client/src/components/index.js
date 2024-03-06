@@ -15,6 +15,7 @@ import Following from "./profile/Following";
 import Footer from "./Footer";
 import ImageUpload from "./ImageUpload";
 import UpdateProfile from "./profile/UpdateProfile";
+import UpdatePin from "./pin/UpdatePin";
 
 export {
   Header,
@@ -34,4 +35,5 @@ export {
   Footer,
   ImageUpload,
   UpdateProfile,
+  UpdatePin,
 };

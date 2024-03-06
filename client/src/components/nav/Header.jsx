@@ -36,7 +36,7 @@ export default function Header() {
     } else {
       setResultBox(false);
     }
-  }, [location.pathname, searchQuery]);
+  }, [searchQuery]);
 
   const logoutUser = () => {
     userService.logout();

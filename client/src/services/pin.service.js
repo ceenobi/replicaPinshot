@@ -57,6 +57,16 @@ const createAPin = async (title, description, image, tags) => {
   );
 };
 
+const updateAPin = async (pinId, title, description, image, tags) => {
+  return await connect.patch(
+    `/pin/${pinId}`,
+    { title, description, image, tags },
+    {
+      headers: authHeader(),
+    }
+  );
+};
+
 export default {
   getRandomPins,
   getFollowedPins,
@@ -68,4 +78,5 @@ export default {
   deleteAPin,
   getPinsLikedByUser,
   createAPin,
+  updateAPin,
 };

@@ -98,7 +98,9 @@ export default function Profile() {
                     className="mb-2 object-fit-cover"
                     alt={user?.userName}
                   />
-                  <UpdateProfile user={user} setData={setData} />
+                  {loggedInUser._id === user._id && (
+                    <UpdateProfile user={user} setData={setData} />
+                  )}
                 </div>
                 <div>
                   <div className="mb-0 d-flex flex-wrap align-items-center justify-content-center justify-content-md-start gap-2">

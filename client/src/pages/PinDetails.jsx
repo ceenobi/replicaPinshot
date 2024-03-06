@@ -4,7 +4,7 @@ import { useFetch, useSlide, useTitle, useAuthContext } from "@hooks";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { pinService, userService } from "@services";
 import { Spinner, downloadImage } from "@utils";
-import { Row, Col, Image } from "react-bootstrap";
+import { Row, Col, Image, Stack } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { FaExpand, FaHeart } from "react-icons/fa";
@@ -19,6 +19,7 @@ import {
   Comments,
   MasonryLayout,
   PinCard,
+  UpdatePin,
 } from "@components";
 import { toast } from "react-toastify";
 import { avatar } from "@assets";
@@ -59,9 +60,9 @@ export default function PinDetails() {
   const handleLike = async () => {
     try {
       const res = await pinService.likeAPin(pinId, loggedInUser._id);
-      toast.success(res.data);
       const pin = await pinService.getAPin(pinId);
       setData(pin.data);
+      toast.success(res.data);
     } catch (error) {
       console.log(error);
       if (error.response) {
@@ -75,9 +76,9 @@ export default function PinDetails() {
   const handleDislike = async () => {
     try {
       const res = await pinService.dislikeAPin(pinId, loggedInUser._id);
-      toast.success(res.data);
       const pin = await pinService.getAPin(pinId);
       setData(pin.data);
+      toast.success(res.data);
     } catch (error) {
       console.log(error);
       if (error.response) {
@@ -193,8 +194,8 @@ export default function PinDetails() {
                               style={{ width: "50px", height: "50px" }}
                               className={
                                 i === current
-                                  ? "rounded-4 border border-2 border-warning"
-                                  : "rounded-4 "
+                                  ? "rounded-4 border border-2 border-warning cursor"
+                                  : "rounded-4 cursor"
                               }
                             />
                           ))}
@@ -218,29 +219,36 @@ export default function PinDetails() {
                 <Col lg={6} className="mb-4 px-lg-4">
                   <h1 className="fw-bold mb-4 display-6">{pin.title}</h1>
                   <p className="mb-4">{pin.description}</p>
-                  <div className="mb-4 d-flex justify-content-between justify-content-md-start w-100 gap-md-4">
-                    <div>
-                      {pin.image?.map((img, i) => (
-                        <div key={uuidv4()} title="download this image">
-                          {i === current && (
-                            <IoMdDownload
-                              size="30px"
-                              className="cursor"
-                              onClick={() => downloadImage(pin.title, img)}
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                    <div className="d-flex align-items-center gap-2">
-                      <FaHeart
-                        size="28px"
-                        className={`cursor ${isLiked ? "text-danger" : ""}`}
-                        title={isLiked ? "You liked this pin" : "Click to like"}
-                        onClick={isLiked ? handleDislike : handleLike}
-                      />
-                      <span>{pin.likes?.length} likes</span>
-                    </div>
+                  <div className="mb-4 d-flex justify-content-between align-items-center w-100 gap-md-4">
+                    <Stack direction="horizontal" gap={3}>
+                      <div>
+                        {pin.image?.map((img, i) => (
+                          <div key={uuidv4()} title="download this image">
+                            {i === current && (
+                              <IoMdDownload
+                                size="30px"
+                                className="cursor"
+                                onClick={() => downloadImage(pin.title, img)}
+                              />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="d-flex align-items-center gap-2">
+                        <FaHeart
+                          size="28px"
+                          className={`cursor ${isLiked ? "text-danger" : ""}`}
+                          title={
+                            isLiked ? "You liked this pin" : "Click to like"
+                          }
+                          onClick={isLiked ? handleDislike : handleLike}
+                        />
+                        <span>{pin.likes?.length} likes</span>
+                      </div>
+                    </Stack>
+                    {loggedInUser._id === pin.userId?._id && (
+                      <UpdatePin pin={pin} setData={setData} />
+                    )}
                   </div>
                   <div className="d-flex gap-2 flex-wrap mb-4">
                     <span>Tags:</span>

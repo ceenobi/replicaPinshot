@@ -9,11 +9,11 @@ export default function Root() {
 
   return (
     <>
-      <main className="min-vh-100">
-        {!matchPaths.includes(location.pathname) && <Header />}
+      {!matchPaths.includes(location.pathname) && <Header />}
+      <main style={{ minHeight: "95vh" }}>
         <Outlet />
-        {!matchPaths.includes(location.pathname) && <Footer />}
       </main>
+      {!matchPaths.includes(location.pathname) && <Footer />}
     </>
   );
 }

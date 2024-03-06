@@ -40,25 +40,29 @@ export default function HomeUser() {
         </>
       ) : (
         <>
-          {loading && <Spinner text="Fetching pins" />}
-          {allPins?.length > 0 && (
-            <ReactInfiniteScroll
-              dataLength={allPins?.length}
-              fetchData={fetchMoreData}
-              hasMore={hasMore}
-            >
-              <MasonryLayout>
-                {allPins.map((pin) => (
-                  <PinCard key={uuidv4()} {...pin} />
-                ))}
-              </MasonryLayout>
-            </ReactInfiniteScroll>
-          )}
-          {!allPins.length && (
-            <p className="mt-5">
-              No pins to show at the moment. Vist explore to view and follow a
-              user
-            </p>
+          {loading ? (
+            <Spinner text="Fetching pins" />
+          ) : (
+            <>
+              {allPins?.length > 0 ? (
+                <ReactInfiniteScroll
+                  dataLength={allPins?.length}
+                  fetchData={fetchMoreData}
+                  hasMore={hasMore}
+                >
+                  <MasonryLayout>
+                    {allPins.map((pin) => (
+                      <PinCard key={uuidv4()} {...pin} />
+                    ))}
+                  </MasonryLayout>
+                </ReactInfiniteScroll>
+              ) : (
+                <p className="mt-5">
+                  No pins to show at the moment. Vist explore to view and follow
+                  a user
+                </p>
+              )}
+            </>
           )}
         </>
       )}

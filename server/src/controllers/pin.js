@@ -262,10 +262,15 @@ export const updateAPin = async (req, res, next) => {
       tags: pinParams.tags,
     };
 
-    Object.keys(updatedFields).forEach(
-      (key) =>
-        (updatedFields[key] === " " || undefined) && delete updatedFields[key]
-    );
+    Object.keys(updatedFields).forEach((key) => {
+      if (
+        updatedFields[key] === "" ||
+        updatedFields[key] === undefined ||
+        (Array.isArray(updatedFields[key]) && updatedFields[key].length === 0)
+      ) {
+        delete updatedFields[key];
+      }
+    });
     const updatedPin = await Pin.findByIdAndUpdate(pinId, updatedFields, {
       new: true,
     });
