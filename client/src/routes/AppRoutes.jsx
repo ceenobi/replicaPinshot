@@ -83,7 +83,7 @@ export default function AppRoutes() {
       element: <ResetPassword />,
     },
     {
-      path: "verify-account/:userId/:token",
+      path: "verify-email/:userId/:token",
       name: "Verify account",
       element: (
         <ProtectedRoutes isAuth={token}>

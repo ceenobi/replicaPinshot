@@ -60,9 +60,9 @@ export default function PinDetails() {
   const handleLike = async () => {
     try {
       const res = await pinService.likeAPin(pinId, loggedInUser._id);
+      toast.success(res.data);
       const pin = await pinService.getAPin(pinId);
       setData(pin.data);
-      toast.success(res.data);
     } catch (error) {
       console.log(error);
       if (error.response) {
@@ -76,9 +76,9 @@ export default function PinDetails() {
   const handleDislike = async () => {
     try {
       const res = await pinService.dislikeAPin(pinId, loggedInUser._id);
+      toast.success(res.data);
       const pin = await pinService.getAPin(pinId);
       setData(pin.data);
-      toast.success(res.data);
     } catch (error) {
       console.log(error);
       if (error.response) {

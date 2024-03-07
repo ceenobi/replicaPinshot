@@ -14,9 +14,9 @@ export default function PinCard({ _id, title, image }) {
   const handleLike = async () => {
     try {
       const res = await pinService.likeAPin(_id, loggedInUser._id);
+      toast.success(res.data);
       const pin = await pinService.getAPin(_id);
       setData(pin.data);
-      toast.success(res.data);
     } catch (error) {
       console.log(error);
       if (error.response) {
@@ -30,9 +30,9 @@ export default function PinCard({ _id, title, image }) {
   const handleDislike = async () => {
     try {
       const res = await pinService.dislikeAPin(_id, loggedInUser._id);
+      toast.success(res.data);
       const pin = await pinService.getAPin(_id);
       setData(pin.data);
-      toast.success(res.data);
     } catch (error) {
       console.log(error);
       if (error.response) {
