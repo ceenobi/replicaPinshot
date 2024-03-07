@@ -10,12 +10,12 @@ export default function VerifyAccount() {
   const { userId } = useParams();
   const { token } = useParams();
   const navigate = useNavigate();
+  const { loggedInUser } = useAuthContext() || {};
   const { error, loading } = useFetch(
     userService.verifyUserAccount,
     userId,
     token
   );
-  const { loggedInUser } = useAuthContext() || {};
 
   useEffect(() => {
     if (loggedInUser.isVerified) {

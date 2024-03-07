@@ -5,7 +5,6 @@ import {
   InputGroup,
   Button,
   Stack,
-  Container,
   Dropdown,
 } from "react-bootstrap";
 import { FiSearch } from "react-icons/fi";
@@ -61,7 +60,7 @@ export default function Header() {
         location.pathname === "/" && !loggedInUser ? "d-none d-md-block" : ""
       }
     >
-      <Container fluid className={`${styles.navContainer} fixed-top w-100 p-3`}>
+      <div className={`${styles.navContainer} fixed-top w-100 p-3`}>
         {!showSearch ? (
           <div className="d-flex justify-content-between align-items-center position-relative">
             <Stack direction="horizontal" gap={3}>
@@ -209,7 +208,7 @@ export default function Header() {
           </div>
         )}
         {matchPaths.includes(location.pathname) && <Tags />}
-      </Container>
+      </div>
     </div>
   );
 }

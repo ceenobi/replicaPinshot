@@ -17,7 +17,6 @@ router.post(
 );
 router.patch(
   "/verify-account/:id/:token",
-  verifyToken(Roles.All),
   genLimiter,
   AuthController.verifyAccount
 );
