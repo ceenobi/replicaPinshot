@@ -64,6 +64,20 @@ const updateProfile = async (userName, email, password, profilePhoto, bio) => {
   );
 };
 
+const recoverPassword = async (email) => {
+  return await connect.post("/auth/verify-email", { email });
+};
+
+const resetPassword = async (userId, token, password) => {
+  return await connect.patch(`/auth/reset-password/${userId}/${token}`, {
+    password,
+  });
+};
+
+const verifyUserAccount = async (userId, token) => {
+  return await connect.patch(`/auth/verify-account/${userId}/${token}`);
+};
+
 const logout = () => {
   localStorage.clear();
   window.location.reload();
@@ -81,4 +95,7 @@ export default {
   getMyFollowers,
   getFollowing,
   updateProfile,
+  recoverPassword,
+  resetPassword,
+  verifyUserAccount,
 };

@@ -101,7 +101,11 @@ export default function PinDetails() {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data.error);
+      if (error.response) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("An error occurred");
+      }
     }
   };
 
@@ -117,7 +121,11 @@ export default function PinDetails() {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data.error);
+      if (error.response) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("An error occurred");
+      }
     }
   };
 

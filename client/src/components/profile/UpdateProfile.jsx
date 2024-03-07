@@ -16,7 +16,7 @@ export default function UpdateProfile({ user, setData }) {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { setLoggedInUser } = useAuthContext();
+  const { setLoggedInUser } = useAuthContext() || {};
   const {
     register,
     handleSubmit,

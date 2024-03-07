@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useFetch, useScroll } from "@hooks";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { searchService } from "@services";
 import { v4 as uuidv4 } from "uuid";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 
 export default function Tags() {
   const [tagQuery, setTagQuery] = useState("");
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query");
   const navigate = useNavigate();
   const { data: tags } = useFetch(searchService.getAllTags);
   const { scroll, scrollRef } = useScroll();
@@ -32,8 +34,13 @@ export default function Tags() {
               variant="solid"
               style={{
                 backgroundColor:
-                  tag === tagQuery ? "var(--dark100)" : "lightGrey",
-                color: tag === tagQuery ? "var(--white100)" : "var(--teal200)",
+                  tag === tagQuery || tag === query
+                    ? "var(--dark100)"
+                    : "lightGrey",
+                color:
+                  tag === tagQuery || tag === query
+                    ? "var(--white100)"
+                    : "var(--dark100)",
                 minWidth: "fit-content",
               }}
               size="sm"

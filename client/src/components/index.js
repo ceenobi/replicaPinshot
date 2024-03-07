@@ -16,6 +16,7 @@ import Footer from "./Footer";
 import ImageUpload from "./ImageUpload";
 import UpdateProfile from "./profile/UpdateProfile";
 import UpdatePin from "./pin/UpdatePin";
+import Error from "./Error";
 
 export {
   Header,
@@ -36,4 +37,5 @@ export {
   ImageUpload,
   UpdateProfile,
   UpdatePin,
+  Error,
 };

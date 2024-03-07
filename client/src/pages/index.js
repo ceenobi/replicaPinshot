@@ -7,6 +7,9 @@ import PinDetails from "./PinDetails";
 import Profile from "./Profile";
 import Search from "./Search";
 import CreatePin from "./CreatePin";
+import ForgotPassword from "./auth/ForgotPassword";
+import ResetPassword from "./auth/ResetPassword";
+import VerifyAccount from "./auth/VerifyAccount";
 
 export {
   Home,
@@ -18,4 +21,7 @@ export {
   Profile,
   Search,
   CreatePin,
+  ForgotPassword,
+  ResetPassword,
+  VerifyAccount,
 };

@@ -20,7 +20,7 @@ export default function Login() {
     defaultValues: { userName: sessionStorage.getItem("username") || "" },
   });
   const { loggedInUser } = useAuthContext() || {};
-  const from = location.state?.from || "/";
+  const from = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
     if (loggedInUser) {
@@ -39,7 +39,7 @@ export default function Login() {
       if (status === 200) {
         localStorage.setItem("usertoken", JSON.stringify(data.access_token));
         toast.success(data.msg);
-        window.location.replace("/");
+        window.location.replace(from);
       }
     } catch (error) {
       console.error(error);

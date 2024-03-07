@@ -14,7 +14,6 @@ export default function Search() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   useTitle(`Search result for "${query}"`);
 
   useEffect(() => {
@@ -28,11 +27,11 @@ export default function Search() {
   }, [navigate, query]);
 
   useEffect(() => {
+    if (!query) {
+      return;
+    }
     const delaySearchFn = setTimeout(() => {
       const searchRequest = async () => {
-        if (!query) {
-          return;
-        }
         try {
           setLoading(true);
           const res = await searchService.searchUserOrPin(query);

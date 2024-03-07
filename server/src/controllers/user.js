@@ -94,7 +94,7 @@ export const sendEmailVerificationLink = async (req, res, next) => {
       subject: "Email verification link",
       text: `Hello, ${user.userName}, please verify your email by clicking on the link: ${messageLink}. Link expires in 30 minutes`,
     });
-    if (sendMail.success === false) {
+    if (!sendMail.success) {
       return next(
         createHttpError(500, "Verification message could not be sent")
       );
@@ -254,7 +254,7 @@ export const recoverPasswordLink = async (req, res, next) => {
       subject: "Password recovery link",
       text: `Hello, ${user.userName}, please click the link: to reset your pasword ${messageLink}. Link expires in 30 minutes`,
     });
-    if (emailStatus.success === false) {
+    if (!emailStatus.success) {
       return next(createHttpError(500, "Verification message not sent"));
     } else {
       res.status(200).send("Recovery password link sent to your email");

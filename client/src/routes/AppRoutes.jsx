@@ -10,9 +10,13 @@ import {
   Profile,
   Search,
   CreatePin,
+  ForgotPassword,
+  ResetPassword,
+  VerifyAccount,
 } from "@pages";
 import { Spinner } from "@utils";
 import ProtectedRoutes from "./ProtectedRoutes";
+import { Error } from "@components";
 
 const Root = lazy(() => import("@layouts/Root"));
 
@@ -68,6 +72,25 @@ export default function AppRoutes() {
       name: "Search",
       element: <Search />,
     },
+    {
+      path: "forgot-password",
+      name: "Forgot Password",
+      element: <ForgotPassword />,
+    },
+    {
+      path: "reset-password/:id/:token",
+      name: "Reset Password",
+      element: <ResetPassword />,
+    },
+    {
+      path: "verify-account/:userId/:token",
+      name: "Verify account",
+      element: (
+        <ProtectedRoutes isAuth={token}>
+          <VerifyAccount />
+        </ProtectedRoutes>
+      ),
+    },
   ];
 
   const router = createBrowserRouter([
@@ -78,6 +101,7 @@ export default function AppRoutes() {
           <Root routes={routes} />
         </Suspense>
       ),
+      errorElement: <Error />,
       children: routes.map((route) => ({
         index: route.path === "/",
         path: route.path === "/" ? undefined : route.path,

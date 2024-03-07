@@ -46,9 +46,7 @@ export default function Footer() {
             className={({ isActive }) =>
               isActive ? "activeLink fw-bold" : "no-activeLink fw-bold"
             }
-            onClick={() => {
-              setShowSearch(false);
-            }}
+            onClick={() => setShowSearch(false)}
           >
             <div className="d-flex flex-column align-items-center">
               <Icon style={{ fontSize: "30px" }} />

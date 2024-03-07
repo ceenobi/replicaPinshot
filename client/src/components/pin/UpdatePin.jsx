@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { FormFields } from "@layouts";
 import { registerOptions } from "@utils";
-import { pinService, searchService } from "@services";
+import { pinService } from "@services";
 import { MyModal, ImageUpload, MyButton } from "@components";
 import { IoMdSend } from "react-icons/io";
 import { uploadToCloudinary } from "@config";
@@ -38,17 +38,17 @@ export default function UpdatePin({ pin, setData }) {
     }
   };
 
-  const deletePinTag = async (index) => {
-    try {
-      const res = await searchService.deleteATag(pin._id, index);
-      toast.success(res.data);
-      const { data } = await pinService.getAPin(pin._id);
-      setData(data);
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response?.data.error);
-    }
-  };
+  // const deletePinTag = async (index) => {
+  //   try {
+  //     const res = await searchService.deleteATag(pin._id, index);
+  //     toast.success(res.data);
+  //     const { data } = await pinService.getAPin(pin._id);
+  //     setData(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error(error.response?.data.error);
+  //   }
+  // };
 
   const deleteInputTag = (index) => {
     const newOptions = [...tagArray];
@@ -59,8 +59,6 @@ export default function UpdatePin({ pin, setData }) {
   const populateTags = [...tagArray];
   const flattenTags = populateTags.flatMap((tag) => tag);
   const filterTags = flattenTags.filter((tag) => tag !== null);
-
-  console.log(filterTags);
 
   const onSubmitHandler = async ({ title, description, image }) => {
     try {
