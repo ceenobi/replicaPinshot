@@ -67,7 +67,11 @@ export default function CreatePin() {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data.error);
+      if (error.response) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error(error.message || "An error occurred");
+      }
     } finally {
       setLoading(false);
     }

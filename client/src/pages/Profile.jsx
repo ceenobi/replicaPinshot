@@ -15,9 +15,11 @@ import {
   UpdateProfile,
 } from "@components";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 export default function Profile() {
   const [isSending, setIsSending] = useState(false);
+  const [isFollow, setIsFollow] = useState(false);
   const { userName } = useParams();
   const {
     error,
@@ -46,6 +48,7 @@ export default function Profile() {
   };
 
   const follow = async (userId) => {
+    setIsFollow(true);
     try {
       const res = await userService.followAUser(userId, loggedInUser._id);
       if (res.status === 200) {
@@ -58,10 +61,13 @@ export default function Profile() {
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data.error);
+    } finally {
+      setIsFollow(false);
     }
   };
 
   const unfollow = async (userId) => {
+    setIsFollow(true);
     try {
       const res = await userService.unfollowAUser(userId, loggedInUser._id);
       if (res.status === 200) {
@@ -74,6 +80,8 @@ export default function Profile() {
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data.error);
+    } finally {
+      setIsFollow(false);
     }
   };
 
@@ -138,19 +146,25 @@ export default function Profile() {
                     {format(user?.createdAt)}
                   </p>
                   {loggedInUser._id !== user?._id && (
-                    <MyButton
-                      text={isFollowed ? "Unfollow" : "Follow"}
-                      style={{
-                        backgroundColor: isFollowed
-                          ? "var(--teal200)"
-                          : "var(--orangeLight",
-                      }}
-                      onClick={
-                        isFollowed
-                          ? () => unfollow(user?._id)
-                          : () => follow(user?._id)
-                      }
-                    />
+                    <>
+                      {isFollow ? (
+                        <ClipLoader color="#dd5e14" size="14px" />
+                      ) : (
+                        <MyButton
+                          text={isFollowed ? "Unfollow" : "Follow"}
+                          style={{
+                            backgroundColor: isFollowed
+                              ? "var(--teal200)"
+                              : "var(--orangeLight",
+                          }}
+                          onClick={
+                            isFollowed
+                              ? () => unfollow(user?._id)
+                              : () => follow(user?._id)
+                          }
+                        />
+                      )}
+                    </>
                   )}
                 </div>
               </div>

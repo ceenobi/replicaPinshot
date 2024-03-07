@@ -23,9 +23,11 @@ import {
 } from "@components";
 import { toast } from "react-toastify";
 import { avatar } from "@assets";
+import { ClipLoader } from "react-spinners";
 
 export default function PinDetails() {
   const [showPicModal, setShowPicModal] = useState(false);
+  const [isFollow, setIsFollow] = useState(false);
   const [tagQuery, setTagQuery] = useState("");
   const navigate = useNavigate();
   const { pinId } = useParams();
@@ -90,6 +92,7 @@ export default function PinDetails() {
   };
 
   const follow = async (pinUserId) => {
+    setIsFollow(true);
     try {
       const res = await userService.followAUser(pinUserId, loggedInUser._id);
       if (res.status === 200) {
@@ -106,10 +109,13 @@ export default function PinDetails() {
       } else {
         toast.error("An error occurred");
       }
+    } finally {
+      setIsFollow(false);
     }
   };
 
   const unfollow = async (pinUserId) => {
+    setIsFollow(true);
     try {
       const res = await userService.unfollowAUser(pinUserId, loggedInUser._id);
       if (res.status === 200) {
@@ -124,8 +130,10 @@ export default function PinDetails() {
       if (error.response) {
         toast.error(error.response.data.error);
       } else {
-        toast.error("An error occurred");
+        toast.error(error.message || "An error occurred");
       }
+    } finally {
+      setIsFollow(false);
     }
   };
 
@@ -295,19 +303,25 @@ export default function PinDetails() {
                       </div>
                     </div>
                     {loggedInUser._id !== pin.userId?._id && (
-                      <MyButton
-                        text={isFollowed ? "Unfollow" : "Follow"}
-                        style={{
-                          backgroundColor: isFollowed
-                            ? "var(--teal200)"
-                            : "var(--orangeLight)",
-                        }}
-                        onClick={
-                          isFollowed
-                            ? () => unfollow(pin.userId?._id)
-                            : () => follow(pin.userId?._id)
-                        }
-                      />
+                      <>
+                        {isFollow ? (
+                          <ClipLoader color="#dd5e14" size="14px"/>
+                        ) : (
+                          <MyButton
+                            text={isFollowed ? "Unfollow" : "Follow"}
+                            style={{
+                              backgroundColor: isFollowed
+                                ? "var(--teal200)"
+                                : "var(--orangeLight)",
+                            }}
+                            onClick={
+                              isFollowed
+                                ? () => unfollow(pin.userId?._id)
+                                : () => follow(pin.userId?._id)
+                            }
+                          />
+                        )}
+                      </>
                     )}
                   </div>
                   <Comments pinId={pinId} />

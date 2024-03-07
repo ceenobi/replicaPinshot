@@ -42,7 +42,11 @@ export default function Comments({ pinId }) {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data || "Unable to like comment");
+      if (error.response) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error(error.message || "Unable to like comment");
+      }
     }
   };
 
@@ -59,7 +63,11 @@ export default function Comments({ pinId }) {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data || "Unable to dislike comment");
+      if (error.response) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error(error.message || "Unable to dislike comment");
+      }
     }
   };
 
@@ -79,7 +87,11 @@ export default function Comments({ pinId }) {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data.error || "Unable to delete comment");
+      if (error.response) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error(error.message || "Unable to delete comment");
+      }
     }
   };
 
@@ -94,7 +106,11 @@ export default function Comments({ pinId }) {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data.error || "Unable to post comment");
+      if (error.response) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error(error.message || "Unable to post comment");
+      }
     }
   };
 
@@ -107,7 +123,7 @@ export default function Comments({ pinId }) {
       <>
         {loading ? (
           <div className="d-flex justify-content-center">
-            <ClipLoader color="#dd5e14" />
+            <ClipLoader color="#dd5e14" size="14px"/>
           </div>
         ) : (
           <>
@@ -200,7 +216,7 @@ export default function Comments({ pinId }) {
           <Image
             src={loggedInUser.profilePhoto ? loggedInUser.profilePhoto : avatar}
             roundedCircle
-            style={{ width: "45px", height: "45px" }}
+            style={{ width: "30px", height: "30px" }}
             alt={loggedInUser.userName}
             className="object-fit-cover"
           />
