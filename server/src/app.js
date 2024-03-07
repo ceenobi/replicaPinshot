@@ -1,3 +1,4 @@
+import dotenv from "dotenv"
 import express, { json } from "express";
 import createHttpError, { isHttpError } from "http-errors";
 import morgan from "morgan";
@@ -7,6 +8,7 @@ import pinRoutes from "./routes/pin.js";
 import searchRoutes from "./routes/search.js";
 import commentRoutes from "./routes/comment.js";
 
+dotenv.config()
 const app = express();
 app.use(morgan("dev"));
 app.use(cors());
