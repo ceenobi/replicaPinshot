@@ -174,6 +174,6 @@ export default function UpdatePin({ pin, setData }) {
 }
 
 UpdatePin.propTypes = {
-  pin: PropTypes.object,
+  pin: PropTypes.any,
   setData: PropTypes.any,
 };

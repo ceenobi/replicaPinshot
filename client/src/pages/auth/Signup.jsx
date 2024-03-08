@@ -18,7 +18,7 @@ export default function Signup() {
     formState: { errors, isSubmitting },
   } = useForm();
   const { loggedInUser } = useAuthContext() || {};
-  const from = location.state?.from || "/";
+  const from = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
     if (loggedInUser) {
@@ -40,7 +40,7 @@ export default function Signup() {
       if (status === 201) {
         localStorage.setItem("usertoken", JSON.stringify(data.access_token));
         toast.success(data.msg);
-        window.location.replace("/");
+        window.location.replace(from);
       }
     } catch (error) {
       console.error(error);

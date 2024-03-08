@@ -131,7 +131,10 @@ export default function Comments({ pinId }) {
               <div className="my-4">
                 <p className="fw-bold">Comments</p>
                 {pinComments.slice(0, 5).map((comment) => (
-                  <div key={comment._id} className="d-flex gap-2 mb-3">
+                  <div
+                    key={comment._id}
+                    className="d-flex flex-wrap flex-md-nowrap gap-2 mb-3"
+                  >
                     <div className="d-flex gap-2">
                       <Link to={`/profile/${comment?.userId.userName}`}>
                         <Image
@@ -152,7 +155,7 @@ export default function Comments({ pinId }) {
                     </div>
                     <div>
                       <span className="small">{comment.comment}</span>
-                      <div className="d-flex align-items-center gap-3">
+                      <div className="d-flex flex-wrap align-items-center gap-3">
                         <TimeAgo
                           datetime={comment.createdAt}
                           locale="en_US"
@@ -227,7 +230,7 @@ export default function Comments({ pinId }) {
             register={register}
             errors={errors?.comment}
             registerOptions={registerOptions?.comment}
-            className="w-100 ms-2"
+            className="w-100 mx-2"
             id="comment"
             name="comment"
             label="Leave a comment... 😃"

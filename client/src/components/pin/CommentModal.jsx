@@ -29,7 +29,10 @@ export default function CommentModal({
         </Offcanvas.Header>
         <Offcanvas.Body>
           {pinComments.map((comment) => (
-            <div key={comment._id} className="d-flex gap-2 mb-3">
+            <div
+              key={comment._id}
+              className="d-flex flex-wrap flex-md-nowrap gap-2 mb-3"
+            >
               <div className="d-flex gap-2">
                 <Link to={`/profile/${comment?.userId.userName}`}>
                   <Image
