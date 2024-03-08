@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/:id/add", verifyToken(Roles.All), CommentController.addAComment);
 
-router.get("/:id", verifyToken(Roles.All), CommentController.getComments);
+router.get("/:id", CommentController.getComments);
 
 router.put("/:id/like", verifyToken(Roles.All), CommentController.likeAComment);
 

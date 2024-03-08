@@ -1,9 +1,7 @@
 import { connect, authHeader } from "@config";
 
 const getPinComments = async (pinId) => {
-  return await connect.get(`/comment/${pinId}`, {
-    headers: authHeader(),
-  });
+  return await connect.get(`/comment/${pinId}`);
 };
 
 const likeAComment = async (commentId, userId) => {

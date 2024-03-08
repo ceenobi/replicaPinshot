@@ -60,6 +60,7 @@ export default function PinDetails() {
   };
 
   const handleLike = async () => {
+    setIsFollow(true);
     try {
       const res = await pinService.likeAPin(pinId, loggedInUser._id);
       toast.success(res.data);
@@ -72,10 +73,13 @@ export default function PinDetails() {
       } else {
         toast.error("An error occurred");
       }
+    } finally {
+      setIsFollow(false);
     }
   };
 
   const handleDislike = async () => {
+    setIsFollow(true);
     try {
       const res = await pinService.dislikeAPin(pinId, loggedInUser._id);
       toast.success(res.data);
@@ -88,6 +92,8 @@ export default function PinDetails() {
       } else {
         toast.error("An error occurred");
       }
+    } finally {
+      setIsFollow(false);
     }
   };
 
@@ -250,17 +256,21 @@ export default function PinDetails() {
                           </div>
                         ))}
                       </div>
-                      <div className="d-flex align-items-center gap-2">
-                        <FaHeart
-                          size="28px"
-                          className={`cursor ${isLiked ? "text-danger" : ""}`}
-                          title={
-                            isLiked ? "You liked this pin" : "Click to like"
-                          }
-                          onClick={isLiked ? handleDislike : handleLike}
-                        />
-                        <span>{pin.likes?.length} likes</span>
-                      </div>
+                      {isFollow ? (
+                        <ClipLoader color="#dd5e14" size="14px" />
+                      ) : (
+                        <div className="d-flex align-items-center gap-2">
+                          <FaHeart
+                            size="28px"
+                            className={`cursor ${isLiked ? "text-danger" : ""}`}
+                            title={
+                              isLiked ? "You liked this pin" : "Click to like"
+                            }
+                            onClick={isLiked ? handleDislike : handleLike}
+                          />
+                          <span>{pin.likes?.length} likes</span>
+                        </div>
+                      )}
                     </Stack>
                     {loggedInUser._id === pin.userId?._id && (
                       <UpdatePin pin={pin} setData={setData} />
@@ -305,7 +315,7 @@ export default function PinDetails() {
                     {loggedInUser._id !== pin.userId?._id && (
                       <>
                         {isFollow ? (
-                          <ClipLoader color="#dd5e14" size="14px"/>
+                          <ClipLoader color="#dd5e14" size="14px" />
                         ) : (
                           <MyButton
                             text={isFollowed ? "Unfollow" : "Follow"}

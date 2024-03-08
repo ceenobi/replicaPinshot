@@ -36,9 +36,9 @@ export default function Comments({ pinId }) {
         loggedInUser._id
       );
       if (res.status === 200) {
+        toast.success(res.data);
         const { data } = await commentService.getPinComments(pinId);
         setData(data);
-        toast.success(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -57,9 +57,9 @@ export default function Comments({ pinId }) {
         loggedInUser._id
       );
       if (res.status === 200) {
+        toast.success(res.data);
         const { data } = await commentService.getPinComments(pinId);
         setData(data);
-        toast.success(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -123,7 +123,7 @@ export default function Comments({ pinId }) {
       <>
         {loading ? (
           <div className="d-flex justify-content-center">
-            <ClipLoader color="#dd5e14" size="14px"/>
+            <ClipLoader color="#dd5e14" size="14px" />
           </div>
         ) : (
           <>
@@ -172,6 +172,7 @@ export default function Comments({ pinId }) {
                                 : () => handleLike(comment._id)
                             }
                           />
+
                           <span style={{ fontSize: "14px" }}>
                             {comment.likeCount} likes
                           </span>
@@ -232,7 +233,13 @@ export default function Comments({ pinId }) {
             label="Leave a comment... 😃"
           />
           <MyButton
-            text={isSubmitting ? <ClipLoader color="#dd5e14" /> : <IoMdSend />}
+            text={
+              isSubmitting ? (
+                <ClipLoader color="#dd5e14" size="14px" />
+              ) : (
+                <IoMdSend />
+              )
+            }
             variant="none"
             type="submit"
             disabled={isSubmitting}
