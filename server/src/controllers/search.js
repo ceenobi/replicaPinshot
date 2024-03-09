@@ -19,8 +19,11 @@ export const getTags = async (req, res, next) => {
         return filterTags.indexOf(tag) === i && tag?.length > 0;
       }),
     ];
-    cache.set("tags", removeTagsDuplicates);
-    res.status(200).json(removeTagsDuplicates);
+    const randomTags = removeTagsDuplicates
+      .slice(0, 40)
+      .sort(() => Math.random() - 0.5);
+    cache.set("tags", randomTags);
+    res.status(200).json(randomTags);
   } catch (error) {
     next(error);
   }

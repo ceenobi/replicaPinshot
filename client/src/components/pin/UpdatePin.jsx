@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { FormFields } from "@layouts";
 import { registerOptions } from "@utils";
-import { pinService } from "@services";
+import { pinService, searchService } from "@services";
 import { MyModal, ImageUpload, MyButton } from "@components";
 import { IoMdSend } from "react-icons/io";
 import { uploadToCloudinary } from "@config";
@@ -38,17 +38,17 @@ export default function UpdatePin({ pin, setData }) {
     }
   };
 
-  // const deletePinTag = async (index) => {
-  //   try {
-  //     const res = await searchService.deleteATag(pin._id, index);
-  //     toast.success(res.data);
-  //     const { data } = await pinService.getAPin(pin._id);
-  //     setData(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error(error.response?.data.error);
-  //   }
-  // };
+  const deletePinTag = async (index) => {
+    try {
+      const res = await searchService.deleteATag(pin._id, index);
+      toast.success(res.data);
+      const { data } = await pinService.getAPin(pin._id);
+      setData(data);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data.error);
+    }
+  };
 
   const deleteInputTag = (index) => {
     const newOptions = [...tagArray];
@@ -56,9 +56,9 @@ export default function UpdatePin({ pin, setData }) {
     setTagArray(newOptions);
   };
 
-  const populateTags = [...tagArray];
+  const populateTags = [...tagArray, pin?.tags];
   const flattenTags = populateTags.flatMap((tag) => tag);
-  const filterTags = flattenTags.filter((tag) => tag !== null);
+  const addNewTags = flattenTags.filter((tag) => tag !== null);
 
   const onSubmitHandler = async ({ title, description, image }) => {
     try {
@@ -76,7 +76,7 @@ export default function UpdatePin({ pin, setData }) {
         title,
         description,
         pinImages,
-        filterTags
+        addNewTags
       );
       if (status === 200) {
         toast.success(data.msg);
@@ -147,7 +147,18 @@ export default function UpdatePin({ pin, setData }) {
               <IoMdSend size="25px" className="cursor" onClick={addTag} />
             </div>
             <div className="d-flex gap-2 mb-3 flex-wrap">
-              {filterTags.map((tag, i) => (
+              {pin.tags.map((tag, i) => (
+                <Badge
+                  key={i}
+                  className="cursor"
+                  bg="secondary"
+                  onClick={deletePinTag}
+                >
+                  {tag}
+                  <span className="text-white fw-bold ms-2">x</span>
+                </Badge>
+              ))}
+              {tagArray.map((tag, i) => (
                 <Badge
                   key={i}
                   className="cursor"

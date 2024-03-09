@@ -281,7 +281,7 @@ export default function PinDetails() {
                     {pin.tags?.map((tag) => (
                       <MyButton
                         key={uuidv4()}
-                        className="mx-1 icon bg-secondary-subtle text-black text-lowercase"
+                        className="ms-1 icon bg-secondary-subtle text-black text-lowercase"
                         size="sm"
                         text={tag}
                         onClick={() => handleTagQuery(tag)}
@@ -300,6 +300,7 @@ export default function PinDetails() {
                           roundedCircle
                           style={{ width: "45px", height: "45px" }}
                           alt={pin.userId?.userName}
+                          className="object-fit-cover"
                         />
                       </Link>
                       <div>

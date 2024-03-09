@@ -20,6 +20,8 @@ export default function Tags() {
     navigate(`/search/?query=${tag}`);
   };
 
+  console.log(tags);
+
   return (
     <div className="position-relative mt-3">
       <div
