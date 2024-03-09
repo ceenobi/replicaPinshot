@@ -5,7 +5,7 @@ import Pin from "../models/pin.model.js";
 import User from "../models/user.model.js";
 import Comment from "../models/comment.model.js";
 
-const cache = new NodeCache({ stdTTL: 300 });
+const cache = new NodeCache({ stdTTL: 100 });
 
 export const createAPin = async (req, res, next) => {
   const { id: userId } = req.user;
