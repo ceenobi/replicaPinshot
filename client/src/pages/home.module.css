@@ -17,7 +17,7 @@
 }
 .explore {
   background-color: var(--teal100);
-  min-height: 100vh;
+  min-height: 500px;
 }
 .imgAdjust {
   width: 100%;
@@ -28,7 +28,7 @@
   background-color: var(--orangeLight) !important;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
   .imgAdjust {
     width: 550px;
   }

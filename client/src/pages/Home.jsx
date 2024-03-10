@@ -7,7 +7,7 @@ import { imgs, jayson, logo } from "@assets";
 
 export default function Home() {
   return (
-    <div className="mt-md-5 px-0">
+    <div className="mx-auto" style={{ maxWidth: "1536px" }}>
       <div className="d-none d-md-block py-5">
         <h1 className="text-center my-5 display-4 fw-bold">
           See what your friends <br />
@@ -56,7 +56,7 @@ export default function Home() {
         </div>
       </div>
       <div
-        className={`d-md-flex justify-content-center justify-content-md-between align-items-center h-auto ${styles.explore}`}
+        className={`d-lg-flex justify-content-center justify-content-lg-between align-items-center w-100 ${styles.explore}`}
       >
         <LazyLoadImage
           effect="blur"
