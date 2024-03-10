@@ -44,6 +44,10 @@ export default function CreatePin() {
   const filterTags = populateTags.filter((tag) => tag !== null);
 
   const onSubmitHandler = async ({ title, description, image }) => {
+    if (filterTags.length <= 0) {
+      toast.error(registerOptions.tags.required);
+      return;
+    }
     setLoading(true);
     let pinImages = [];
     try {
@@ -90,7 +94,7 @@ export default function CreatePin() {
             onSubmit={handleSubmit(onSubmitHandler)}
           >
             <Row className="g-3 align-items-center">
-              <Col lg={6} className="my-4">
+              <Col lg={6} className="my-5">
                 <div
                   style={{ height: "350px", width: "85%" }}
                   className="mx-auto rounded-4 cursor position-relative"

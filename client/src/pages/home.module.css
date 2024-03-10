@@ -6,6 +6,11 @@
   min-height: 100vh;
   position: relative;
 }
+
+.container {
+  max-width: 1536px;
+  margin: 0 auto;
+}
 .hero {
   z-index: 2;
   opacity: 1;
@@ -20,16 +25,23 @@
   min-height: 500px;
 }
 .imgAdjust {
-  width: 100%;
+  width: 100vw;
   height: 100%;
   text-align: center;
+  object-fit: cover;
 }
 .btn {
   background-color: var(--orangeLight) !important;
 }
 
+@media (min-width: 768px) {
+  .imgAdjust {
+    width: 400px;
+  }
+}
+
 @media (min-width: 1200px) {
   .imgAdjust {
-    width: 550px;
+    width: 600px;
   }
 }

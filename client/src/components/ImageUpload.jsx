@@ -52,7 +52,7 @@ export default function ImageUpload({
               src={img}
               key={i}
               alt="image preview"
-              style={{ width: "45px", height: "45px" }}
+              style={{ width: "40px", height: "40px" }}
               className="rounded-4 object-fit-cover mb-3 me-2"
             />
           ))}

@@ -44,6 +44,9 @@ const registerOptions = {
   bio: {
     required: "Bio is required",
   },
+  tags: {
+    required: "Please select a tag from the options or add one, it helps users find your post",
+  },
 };
 
 export default registerOptions;

@@ -13,6 +13,7 @@ const pinSchema = new Schema(
     },
     tags: {
       type: [String],
+      required: true,
     },
     title: {
       type: String,

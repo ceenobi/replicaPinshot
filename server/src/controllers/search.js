@@ -14,16 +14,15 @@ export const getTags = async (req, res, next) => {
     }
     const getPins = await Pin.find();
     const filterTags = getPins.flatMap((pin) => pin.tags);
+    const randomTags = filterTags.slice(0, 40).sort(() => Math.random() - 0.5);
     const removeTagsDuplicates = [
-      ...filterTags.filter((tag, i) => {
-        return filterTags.indexOf(tag) === i && tag?.length > 0;
+      ...randomTags.filter((tag, i) => {
+        return randomTags.indexOf(tag) === i && tag?.length > 0;
       }),
-    ];
-    const randomTags = removeTagsDuplicates
-      .slice(0, 40)
-      .sort(() => Math.random() - 0.5);
-    cache.set("tags", randomTags);
-    res.status(200).json(randomTags);
+    ]
+    console.log(removeTagsDuplicates);
+    cache.set("tags", removeTagsDuplicates);
+    res.status(200).json(removeTagsDuplicates);
   } catch (error) {
     next(error);
   }

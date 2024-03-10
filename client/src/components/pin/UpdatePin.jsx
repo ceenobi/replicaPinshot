@@ -147,7 +147,7 @@ export default function UpdatePin({ pin, setData }) {
               <IoMdSend size="25px" className="cursor" onClick={addTag} />
             </div>
             <div className="d-flex gap-2 mb-3 flex-wrap">
-              {pin.tags.map((tag, i) => (
+              {pin?.tags?.map((tag, i) => (
                 <Badge
                   key={i}
                   className="cursor"

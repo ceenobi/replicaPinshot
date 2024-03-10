@@ -29,7 +29,7 @@ export const createAPin = async (req, res, next) => {
     };
 
     const pin = await Pin.create(pinData);
-    res.status(201).json(pin);
+    res.status(201).json({ pin, msg: "Pin created successfully" });
   } catch (error) {
     next(error);
   }

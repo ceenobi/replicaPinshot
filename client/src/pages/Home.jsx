@@ -1,4 +1,4 @@
-import { Row, Col, Image } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 import { MyButton } from "@components";
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -7,24 +7,25 @@ import { imgs, jayson, logo } from "@assets";
 
 export default function Home() {
   return (
-    <div className="mx-auto" style={{ maxWidth: "1536px" }}>
+    <div className={styles.container}>
       <div className="d-none d-md-block py-5">
         <h1 className="text-center my-5 display-4 fw-bold">
           See what your friends <br />
           <span style={{ color: "var(--teal100)" }}>are up to</span>
         </h1>
-        <Row className="g-3 px-3 justify-content-center">
+        <div className="d-flex flex-wrap justify-content-center gap-2">
           {imgs.map((img, i) => (
-            <Col key={i} md={4} lg={3}>
-              <LazyLoadImage
-                effect="blur"
-                src={img}
-                className="w-100 h-auto rounded-4 object-fit-cover"
-                alt="poster-imgs"
-              />
-            </Col>
+            <LazyLoadImage
+              effect="blur"
+              src={img}
+              className="rounded-4 object-fit-cover"
+              alt="poster-imgs"
+              key={i}
+              width={300}
+              height={"100%"}
+            />
           ))}
-        </Row>
+        </div>
       </div>
       <div
         className={`d-md-none d-flex justify-content-center align-items-center ${styles.bgImg}`}
@@ -56,13 +57,14 @@ export default function Home() {
         </div>
       </div>
       <div
-        className={`d-lg-flex justify-content-center justify-content-lg-between align-items-center w-100 ${styles.explore}`}
+        className={`d-md-flex justify-content-center justify-content-md-between align-items-center w-100 ${styles.explore}`}
       >
         <LazyLoadImage
           effect="blur"
           src={jayson}
           alt="unsplash image"
           className={styles.imgAdjust}
+          height={550}
         />
         <div className="text-center p-4 w-100">
           <h1
